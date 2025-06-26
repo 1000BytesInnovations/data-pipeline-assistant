@@ -1,0 +1,97 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'oracle_to_dbt'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'oracle_to_dbt'
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+models:
+  oracle_to_dbt:
+    # Config indicated by + and applies to all files under models/staging/
+    staging:
+      +materialized: view
+      +docs:
+        node_color: "#7FB3D3"
+      +tags: ["staging"]
+    
+    # Config for intermediate models
+    intermediate:
+      +materialized: ephemeral
+      +docs:
+        node_color: "#FDB462"
+      +tags: ["intermediate"]
+    
+    # Config for mart models
+    marts:
+      +materialized: table
+      +docs:
+        node_color: "#80B1D3"
+      +tags: ["marts"]
+      
+      # Business area specific configs
+      finance:
+        +tags: ["finance", "marts"]
+      sales:
+        +tags: ["sales", "marts"]
+      operations:
+        +tags: ["operations", "marts"]
+    
+    # Oracle packages conversion models
+    oracle_packages:
+      +materialized: view
+      +docs:
+        node_color: "#FB8072"
+      +tags: ["oracle_conversion", "legacy"]
+      +meta:
+        owner: "data_engineering_team"
+        description: "Models converted from Oracle packages"
+
+# Seeds configuration
+seeds:
+  oracle_to_dbt:
+    +column_types:
+      created_at: timestamp
+      updated_at: timestamp
+
+# Snapshots configuration
+snapshots:
+  oracle_to_dbt:
+    +target_schema: snapshots
+    +strategy: timestamp
+    +updated_at: updated_at
+
+# Vars for Snowflake and Oracle package conversion
+vars:
+  # Snowflake specific settings
+  snowflake_database: "{{ env_var('SNOWFLAKE_DATABASE', 'ANALYTICS_DEV') }}"
+  snowflake_schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'DBT_DEV') }}"
+  
+  # Date configurations for Oracle conversion
+  start_date: '2020-01-01'
+  end_date: '2024-12-31'
+  
+  # Oracle package mapping (for reference only)
+  package_prefix: 'PKG_'
+  procedure_prefix: 'PROC_'
+  function_prefix: 'FN_'
+  
+  # Source data configuration
+  source_database: "{{ env_var('SNOWFLAKE_DATABASE', 'ANALYTICS_DEV') }}"
+  source_schema: "RAW_DATA"

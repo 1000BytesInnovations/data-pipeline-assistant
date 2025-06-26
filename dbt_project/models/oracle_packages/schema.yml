@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: oracle_pkg_finance_calculations
+    description: "Converted Oracle finance package procedures and functions"
+    columns:
+      - name: calculation_id
+        description: "Unique identifier for calculation"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Customer identifier"
+      - name: calculation_type
+        description: "Type of financial calculation"
+      - name: calculation_result
+        description: "Result of the calculation"
+      - name: calculation_date
+        description: "Date when calculation was performed"
+      - name: source_package
+        description: "Original Oracle package name"
+      - name: source_procedure
+        description: "Original Oracle procedure/function name"
+    meta:
+      oracle_package: "PKG_FINANCE_CALC"
+      conversion_date: "2024-01-15"
+      converted_by: "data_engineering_team"
+      
+  - name: oracle_pkg_sales_reports
+    description: "Converted Oracle sales package procedures"
+    columns:
+      - name: report_id
+        description: "Unique identifier for report"
+      - name: sales_rep_id
+        description: "Sales representative identifier"
+      - name: report_type
+        description: "Type of sales report"
+      - name: report_data
+        description: "Report data in JSON format"
+      - name: generated_date
+        description: "Report generation date"
+    meta:
+      oracle_package: "PKG_SALES_REPORTS"
+      conversion_date: "2024-01-20"
+      converted_by: "data_engineering_team"
