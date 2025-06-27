@@ -29,8 +29,7 @@ This repository contains a structured dbt project optimized for:
 ```
 ├── dbt_project/                 # Main dbt project
 │   ├── models/
-│   │   ├── staging/            # Source data cleaning (existing models)
-│   │   ├── marts/sales/        # Final sales reports
+│   │   ├── staging/            # Source definitions and examples
 │   │   └── {project_name}/     # Create folders per project/task
 │   └── macros/oracle_utils/   # Oracle function replacements
 ├── oracle_packages/           # Oracle source management
@@ -51,6 +50,7 @@ Available macros for Oracle compatibility:
 2. Follow naming conventions in `QUICK_REFERENCE.md`
 3. Use the layered approach: staging → intermediate → marts
 4. Reference `AI_ASSISTANT_GUIDE.md` for detailed conversion patterns
+5. See `models/staging/_sources_example.yml` for source definition examples
 
 ## Key Features
 
