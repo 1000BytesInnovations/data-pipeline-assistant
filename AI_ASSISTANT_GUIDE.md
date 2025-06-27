@@ -39,7 +39,7 @@ dbt_project/models/
 
 ### **Step 4: Use Oracle Compatibility**
 - Use macros from `macros/oracle_utils/` for Oracle functions
-- Available macros: `nvl()`, `decode()`, `oracle_months_between()`, etc.
+- Available macros: `nvl()`, `decode()`
 
 ## 🔧 Oracle Function Conversion Guide
 

@@ -10,48 +10,6 @@ This repository contains a structured dbt project optimized for:
 - Supporting coding assistants with well-organized folder structures
 - Enabling collaboration between database developers and analytics engineers
 
-## Repository Structure
-
-```
-├── dbt_project/                 # Main dbt project
-│   ├── models/
-│   │   ├── staging/            # Base staging models
-│   │   ├── intermediate/       # Business logic models
-│   │   ├── marts/             # Final business models
-│   │   │   ├── finance/       # Finance domain models
-│   │   │   ├── sales/         # Sales domain models
-│   │   │   └── operations/    # Operations domain models
-│   │   └── oracle_packages/   # Direct Oracle package conversions
-│   ├── macros/
-│   │   └── oracle_utils/      # Oracle function conversion macros
-│   ├── tests/                 # Data quality tests
-│   ├── seeds/                 # Reference data
-│   ├── snapshots/             # SCD Type 2 tracking
-│   └── analysis/              # Ad-hoc analysis queries
-├── docs/
-│   └── oracle_packages/       # Oracle conversion documentation
-└── scripts/                   # Utility scripts for conversion
-```
-
-## Quick Start
-
-### 1. Environment Setup
-```bash
-cd dbt_project
-cp .env.example .env
-# Edit .env with your Oracle connection details
-```
-
-### 2. Install dbt Dependencies
-```bash
-dbt deps
-```
-
-### 3. Test Connection
-# Data Pipeline Assistant
-
-Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
-
 ## Quick Start
 
 1. **Add Oracle packages** to `oracle_packages/source_code/`
@@ -87,6 +45,8 @@ Available macros for Oracle compatibility:
 2. Follow naming conventions in `QUICK_REFERENCE.md`
 3. Use the layered approach: staging → intermediate → marts
 4. Reference `AI_ASSISTANT_GUIDE.md` for detailed conversion patterns
+
+## Key Features
 
 ### Rich Metadata
 - Comprehensive `schema.yml` files with column descriptions
