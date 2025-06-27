@@ -13,7 +13,14 @@ This repository contains a structured dbt project optimized for:
 ## Quick Start
 
 1. **Add Oracle packages** to `oracle_packages/source_code/`
-2. **Configure connection** in `dbt_project/profiles.yml`
+2. **Configure connection** - Choose one:
+   - **Option A (File)**: Copy `dbt_project/.env.example` to `.env` and fill in credentials
+   - **Option B (CLI)**: Set environment variables in PowerShell:
+     ```powershell
+     $env:SNOWFLAKE_ACCOUNT = "your_account.region"
+     $env:SNOWFLAKE_USER = "your_username"
+     $env:SNOWFLAKE_PASSWORD = "your_password"
+     ```
 3. **Install dependencies**: `cd dbt_project && dbt deps`
 4. **Run conversion**: Follow patterns in `QUICK_REFERENCE.md`
 
