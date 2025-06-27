@@ -78,9 +78,8 @@ Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
 ## Oracle Function Conversions
 
 Available macros for Oracle compatibility:
-- `{{ nvl('column', 'default') }}` - Replaces NVL
-- `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE  
-- `{{ oracle_to_date('date_string', 'format') }}` - Replaces TO_DATE
+- `{{ nvl('column', 'default') }}` - Replaces NVL with COALESCE
+- `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE with CASE statements
 
 ## Usage
 
