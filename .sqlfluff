@@ -1,0 +1,61 @@
+[sqlfluff]
+# SQLFluff configuration for dbt + Snowflake projects
+dialect = snowflake
+templater = dbt
+output_line_length = 120
+indent_unit = space
+tab_space_size = 4
+max_line_length = 120
+
+# dbt-specific configuration
+[sqlfluff:templater:dbt]
+project_dir = dbt_project
+profiles_dir = dbt_project
+profile = oracle_to_dbt
+target = dev
+
+# Indentation and spacing rules
+[sqlfluff:indentation]
+indented_joins = true
+indented_ctes = true
+indented_using_on = true
+template_blocks_indent = true
+
+# Rules configuration
+[sqlfluff:rules]
+# Disable some rules that conflict with dbt patterns
+comma_style = trailing
+capitalisation_policy = lower
+
+# Allow dbt Jinja templating
+[sqlfluff:rules:templating.python.templating]
+# Allow {{ }} blocks for dbt
+allow_jinja = true
+
+# Layout rules
+[sqlfluff:rules:layout.long_lines]
+# Allow longer lines for complex dbt expressions
+ignore_comment_lines = true
+
+[sqlfluff:rules:layout.select_targets]
+# Allow multiline select targets for readability
+wildcard_policy = multiple
+
+# Specific rules for dbt projects
+[sqlfluff:rules:references.from]
+# Allow {{ ref() }} and {{ source() }} without quotes
+force_enable = false
+
+[sqlfluff:rules:references.qualification]
+# Don't require full qualification when using dbt refs
+prefer_quoted_identifiers = false
+
+# Oracle-specific conversions
+[sqlfluff:rules:convention.quoted_literals]
+# Allow Oracle-style string literals during conversion
+preferred_quoted_literal_style = single_quotes
+
+# Exclude certain dbt patterns from linting
+[sqlfluff:rules:ambiguous.column_references]
+# Allow column references that might be ambiguous in dbt context
+group_by_and_order_by_style = explicit

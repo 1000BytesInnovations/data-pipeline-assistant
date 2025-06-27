@@ -1,0 +1,154 @@
+# Pre-commit configuration for Data Pipeline Assistant
+# This configuration ensures code quality for Oracle to dbt migration projects
+
+repos:
+  # General code quality and formatting
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        description: Trim trailing whitespace
+      - id: end-of-file-fixer
+        description: Ensure files end with newline
+      - id: check-yaml
+        description: Validate YAML files
+        files: \.(yaml|yml)$
+      - id: check-json
+        description: Validate JSON files
+      - id: check-merge-conflict
+        description: Check for merge conflict markers
+      - id: check-added-large-files
+        description: Prevent large files from being committed
+        args: ['--maxkb=1000']
+      - id: mixed-line-ending
+        description: Ensure consistent line endings
+        args: ['--fix=lf']
+
+  # SQL formatting and linting with SQLFluff
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 2.3.5
+    hooks:
+      - id: sqlfluff-lint
+        description: Lint SQL files with SQLFluff
+        files: \.(sql)$
+        args: ['--dialect=snowflake', '--config=.sqlfluff']
+        additional_dependencies: ['dbt-snowflake', 'sqlfluff-templater-dbt']
+      - id: sqlfluff-fix
+        description: Fix SQL files with SQLFluff
+        files: \.(sql)$
+        args: ['--dialect=snowflake', '--config=.sqlfluff']
+        additional_dependencies: ['dbt-snowflake', 'sqlfluff-templater-dbt']
+
+  # Python code formatting (for scripts and custom code)
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        description: Format Python code with Black
+        language_version: python3
+        files: \.(py)$
+
+  # Python import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        description: Sort Python imports
+        files: \.(py)$
+        args: ['--profile', 'black']
+
+  # Python linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        description: Lint Python code with Flake8
+        files: \.(py)$
+        args: ['--max-line-length=88', '--extend-ignore=E203,W503']
+
+  # dbt-specific hooks
+  - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
+    rev: v1.2.1
+    hooks:
+      - id: check-script-has-no-table-name
+        description: Ensure dbt scripts use {{ ref() }} and {{ source() }}
+        files: models/.*\.sql$
+      - id: check-model-has-description
+        description: Ensure all dbt models have descriptions
+        files: models/.*\.yml$
+      - id: check-model-has-meta-keys
+        description: Ensure models have required meta keys
+        files: models/.*\.yml$
+        args: ['--meta-keys', 'owner,business_domain']
+      - id: check-model-has-tests-by-name
+        description: Ensure critical models have tests
+        files: models/marts/.*\.yml$
+        args: ['--tests', 'unique,not_null']
+      - id: check-model-columns-have-desc
+        description: Ensure model columns have descriptions
+        files: models/.*\.yml$
+      - id: check-source-has-description
+        description: Ensure all sources have descriptions
+        files: models/.*/_sources\.yml$
+      - id: check-source-columns-have-desc
+        description: Ensure source columns have descriptions
+        files: models/.*/_sources\.yml$
+      - id: check-macro-has-description
+        description: Ensure all macros have descriptions
+        files: macros/.*\.sql$
+      - id: dbt-compile
+        description: Compile dbt project to check for errors
+        args: ['--project-dir', 'dbt_project']
+      - id: dbt-deps
+        description: Install dbt dependencies
+        args: ['--project-dir', 'dbt_project']
+
+  # Markdown formatting and linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.38.0
+    hooks:
+      - id: markdownlint
+        description: Lint Markdown files
+        args: ['--config', '.markdownlint.json']
+
+  # Oracle PL/SQL specific checks (custom script)
+  - repo: local
+    hooks:
+      - id: oracle-package-structure
+        name: Check Oracle package structure
+        entry: scripts/validate_oracle_structure.py
+        language: python
+        files: oracle_packages/.*
+        description: Validate Oracle package conversion structure
+        additional_dependencies: ['pyyaml']
+      
+      - id: dbt-model-naming
+        name: Check dbt model naming conventions
+        entry: scripts/validate_dbt_naming.py
+        language: python
+        files: dbt_project/models/.*\.sql$
+        description: Ensure dbt models follow naming conventions
+        
+      - id: oracle-macro-coverage
+        name: Check Oracle function macro coverage
+        entry: scripts/check_oracle_macro_coverage.py
+        language: python
+        files: dbt_project/models/.*\.sql$
+        description: Ensure Oracle functions have corresponding dbt macros
+
+# Configuration for specific file exclusions
+exclude: |
+  (?x)^(
+    .*\.log|
+    dbt_project/target/.*|
+    dbt_project/dbt_packages/.*|
+    .*\.pyc|
+    .*__pycache__.*
+  )$
+
+# Fail fast - stop on first failure
+fail_fast: false
+
+# Default language version
+default_language_version:
+  python: python3
