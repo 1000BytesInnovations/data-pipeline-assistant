@@ -29,10 +29,9 @@ This repository contains a structured dbt project optimized for:
 ```
 ├── dbt_project/                 # Main dbt project
 │   ├── models/
-│   │   ├── staging/            # Source data cleaning
-│   │   ├── intermediate/       # Business logic
-│   │   ├── marts/             # Final reports (finance, sales, operations)
-│   │   └── oracle_packages/   # Direct Oracle conversions
+│   │   ├── staging/            # Source data cleaning (existing models)
+│   │   ├── marts/sales/        # Final sales reports
+│   │   └── {project_name}/     # Create folders per project/task
 │   └── macros/oracle_utils/   # Oracle function replacements
 ├── oracle_packages/           # Oracle source management
 │   ├── source_code/          # Put .sql, .pks, .pkb files here
