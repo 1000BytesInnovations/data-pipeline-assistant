@@ -6,8 +6,9 @@ This is an Oracle PL/SQL package to dbt models migration project using Snowflake
 ## 📁 Project Structure & AI Instructions
 
 ### **Oracle Package Location**
-- **Input**: All Oracle packages (.sql, .pks, .pkb, .html) go in `oracle_packages/source_code/`
-- **Organization**: Create subdirectories by package name (e.g., `oracle_packages/source_code/PKG_BILLING/`)
+- **Packages**: All Oracle packages (.sql, .pks, .pkb, .html) go in `oracle_packages/source_code/`
+- **Views**: Oracle view definitions go in `oracle_packages/views/`
+- **Organization**: Create subdirectories by package name or business domain
 
 ### **dbt Models Organization**
 When converting Oracle packages, follow this pattern:
@@ -32,11 +33,12 @@ dbt_project/models/
 
 ## 🎯 AI Assistant Workflow
 
-### **Step 1: Analyze Oracle Package**
-When given an Oracle package:
-1. Identify package name, procedures, and functions
-2. Map source tables and business logic
-3. Determine target business domain (finance, sales, operations, etc.)
+### **Step 1: Analyze Oracle Components**
+When given Oracle packages or views:
+1. **Packages**: Identify package name, procedures, and functions
+2. **Views**: Identify view purpose and source tables
+3. Map source tables and business logic
+4. Determine target business domain (finance, sales, operations, etc.)
 
 ### **Step 2: Create Folder Structure**
 ```bash
@@ -170,10 +172,11 @@ models:
 5. Use Oracle compatibility macros where needed
 
 ### **File Organization Priority**
-1. Keep Oracle source files in `oracle_packages/source_code/{package_name}/`
-2. Create mapping document in `oracle_packages/mapping/{package_name}_mapping.md`
-3. Build dbt models following the layered approach
-4. Maintain clear separation between packages
+1. **Packages**: Keep Oracle source files in `oracle_packages/source_code/{package_name}/`
+2. **Views**: Keep Oracle views in `oracle_packages/views/{domain}/`
+3. Create mapping document in `oracle_packages/mapping/{component_name}_mapping.md`
+4. Build dbt models following the layered approach
+5. Maintain clear separation between packages and views
 
 ## 🚀 Success Criteria
 

@@ -7,17 +7,19 @@ This directory contains the Oracle packages that need to be converted to dbt mod
 ```
 oracle_packages/
 ├── source_code/          # Original Oracle package files (.sql, .pks, .pkb)
+├── views/               # Oracle view definitions (separate from packages)
 ├── documentation/        # Package documentation and specifications
 ├── mapping/             # Mapping files between Oracle and dbt models
 └── analysis/           # Analysis reports and conversion notes
 ```
 
-## Adding Oracle Packages
+## Adding Oracle Packages and Views
 
-1. Place your Oracle package files (`.sql`, `.pks`, `.pkb`) in the `source_code/` directory
-2. Organize by business domain or functionality
-3. Add corresponding documentation in the `documentation/` directory
-4. Create mapping files in the `mapping/` directory to track conversions
+1. **Packages**: Place your Oracle package files (`.sql`, `.pks`, `.pkb`) in the `source_code/` directory
+2. **Views**: Place Oracle view definitions in the `views/` directory
+3. Organize by business domain or functionality
+4. Add corresponding documentation in the `documentation/` directory
+5. Create mapping files in the `mapping/` directory to track conversions
 
 ## Naming Conventions
 
@@ -48,4 +50,13 @@ source_code/
 └── operations/
     ├── PKG_INVENTORY_MGMT.sql
     └── PKG_SUPPLY_CHAIN.sql
+
+views/
+├── finance/
+│   ├── V_FINANCIAL_SUMMARY.sql
+│   └── V_BUDGET_REPORT.sql
+├── sales/
+│   └── V_SALES_DASHBOARD.sql
+└── shared/
+    └── V_COMMON_LOOKUPS.sql
 ```
