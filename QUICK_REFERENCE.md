@@ -2,6 +2,11 @@
 
 ## Project Type: Oracle PL/SQL → dbt + Snowflake Migration
 
+## Setup Checklist:
+1. Install dbt dependencies: `cd dbt_project && dbt deps`
+2. Setup pre-commit hooks: `python scripts/setup_pre_commit.py`
+3. Configure profiles: `dbt_project/profiles.yml`
+
 ## Key Locations:
 - **Oracle Packages**: `oracle_packages/source_code/{package_name}/`
 - **Oracle Views**: `oracle_packages/views/{domain}/`

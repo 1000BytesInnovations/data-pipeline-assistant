@@ -57,7 +57,8 @@ Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
 1. **Add Oracle packages** to `oracle_packages/source_code/`
 2. **Configure connection** in `dbt_project/profiles.yml`
 3. **Install dependencies**: `cd dbt_project && dbt deps`
-4. **Run conversion**: Follow patterns in `QUICK_REFERENCE.md`
+4. **Setup pre-commit hooks**: `python scripts/setup_pre_commit.py`
+5. **Run conversion**: Follow patterns in `QUICK_REFERENCE.md`
 
 ## Project Structure
 
@@ -97,4 +98,16 @@ Available macros for Oracle compatibility:
 ### Documentation-Driven Development
 - README files in each major directory
 - Conversion mapping documentation
+
+## Code Quality & Pre-commit Hooks
+
+This project includes comprehensive pre-commit hooks to ensure code quality:
+
+- **SQL Linting**: SQLFluff with dbt/Snowflake optimization
+- **Python Formatting**: Black, isort, Flake8
+- **dbt Validation**: Model naming, documentation, test coverage
+- **Oracle Migration**: Package structure and macro coverage validation
+
+**Setup**: Run `python scripts/setup_pre_commit.py`  
+**Documentation**: See [Pre-commit Feature Guide](docs/PRE_COMMIT_FEATURE.md)
 
