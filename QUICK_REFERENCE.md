@@ -7,7 +7,7 @@
 - **Oracle Views**: `oracle_packages/views/{domain}/`
 - **dbt Models**: `dbt_project/models/`
 - **Oracle Macros**: `dbt_project/macros/oracle_utils/`
-- **Documentation**: `oracle_packages/mapping/` and `docs/`
+- **Documentation**: `oracle_packages/mapping/` and `oracle_packages/analysis/`
 
 ## Folder Creation Pattern:
 ```bash
