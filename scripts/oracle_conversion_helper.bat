@@ -28,7 +28,7 @@ echo         WHEN a.argument_name IS NULL THEN 'PROCEDURE' >> analysis\oracle_pa
 echo         WHEN a.data_type IS NOT NULL AND a.in_out = 'OUT' THEN 'FUNCTION' >> analysis\oracle_packages\extract_packages.sql
 echo         ELSE 'PROCEDURE' >> analysis\oracle_packages\extract_packages.sql
 echo     END as object_type, >> analysis\oracle_packages\extract_packages.sql
-echo     COUNT(a.argument_name^) as parameter_count >> analysis\oracle_packages\extract_packages.sql
+echo     COUNT(a.argument_name) as parameter_count >> analysis\oracle_packages\extract_packages.sql
 echo FROM user_procedures p >> analysis\oracle_packages\extract_packages.sql
 echo LEFT JOIN user_arguments a ON p.object_name = a.package_name >> analysis\oracle_packages\extract_packages.sql
 echo     AND p.procedure_name = a.object_name >> analysis\oracle_packages\extract_packages.sql
@@ -65,7 +65,7 @@ echo     Original Oracle procedure/function description here >> analysis\oracle_
 echo */ >> analysis\oracle_packages\model_template.sql
 echo. >> analysis\oracle_packages\model_template.sql
 echo with source_data as ( >> analysis\oracle_packages\model_template.sql
-echo     select * from {{ ref('staging_model_name'^) }} >> analysis\oracle_packages\model_template.sql
+echo     select * from {{ ref('staging_model_name') }} >> analysis\oracle_packages\model_template.sql
 echo ^), >> analysis\oracle_packages\model_template.sql
 echo. >> analysis\oracle_packages\model_template.sql
 echo -- Add your conversion logic here >> analysis\oracle_packages\model_template.sql
