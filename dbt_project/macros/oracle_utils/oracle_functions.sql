@@ -13,7 +13,7 @@
     {% elif target.type == 'snowflake' %}
         datediff('month', {{ date2 }}, {{ date1 }})
     {% elif target.type == 'bigquery' %}
-        date_diff({{ date1 }}, {{ date2 }}, month)
+        date_diff({{ date1 }}, {{ date2 }}, 'month')
     {% elif target.type == 'postgres' %}
         extract(year from age({{ date1 }}, {{ date2 }})) * 12 + extract(month from age({{ date1 }}, {{ date2 }}))
     {% else %}
