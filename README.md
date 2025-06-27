@@ -48,55 +48,46 @@ dbt deps
 ```
 
 ### 3. Test Connection
-```bash
-dbt debug
+# Data Pipeline Assistant
+
+Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
+
+## Quick Start
+
+1. **Add Oracle packages** to `oracle_packages/source_code/`
+2. **Configure connection** in `dbt_project/profiles.yml`
+3. **Install dependencies**: `cd dbt_project && dbt deps`
+4. **Run conversion**: Follow patterns in `QUICK_REFERENCE.md`
+
+## Project Structure
+
+```
+├── dbt_project/                 # Main dbt project
+│   ├── models/
+│   │   ├── staging/            # Source data cleaning
+│   │   ├── intermediate/       # Business logic
+│   │   ├── marts/             # Final reports (finance, sales, operations)
+│   │   └── oracle_packages/   # Direct Oracle conversions
+│   └── macros/oracle_utils/   # Oracle function replacements
+├── oracle_packages/           # Oracle source management
+│   ├── source_code/          # Put .sql, .pks, .pkb files here
+│   └── analysis/             # Conversion tracking
+└── scripts/                  # Conversion utilities
 ```
 
-### 4. Run Models
-```bash
-dbt run
-dbt test
-```
+## Oracle Function Conversions
 
-## Oracle Package Conversion
+Available macros for Oracle compatibility:
+- `{{ nvl('column', 'default') }}` - Replaces NVL
+- `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE  
+- `{{ oracle_to_date('date_string', 'format') }}` - Replaces TO_DATE
 
-### Analysis Tools
-Use the provided scripts to analyze your Oracle packages:
+## Usage
 
-**Windows:**
-```batch
-scripts\oracle_conversion_helper.bat
-```
-
-**Linux/Mac:**
-```bash
-scripts/analyze_oracle_packages.sh
-```
-
-### Conversion Process
-1. **Analyze**: Run analysis scripts to understand package structure
-2. **Document**: Update `docs/oracle_packages/conversion_mapping.md`
-3. **Convert**: Create dbt models in `models/oracle_packages/`
-4. **Test**: Validate against original Oracle output
-5. **Document**: Add comprehensive documentation
-
-### Oracle Function Macros
-The project includes macros to convert Oracle-specific functions:
-- `oracle_months_between()` - Replaces MONTHS_BETWEEN
-- `oracle_add_months()` - Replaces ADD_MONTHS
-- `oracle_nvl()` - Replaces NVL
-- `oracle_decode()` - Replaces DECODE
-- `oracle_to_char()` - Replaces TO_CHAR
-
-## Coding Assistant Optimization
-
-This structure is designed to work optimally with coding assistants:
-
-### Clear Naming Conventions
-- `stg_` prefix for staging models
-- `int_` prefix for intermediate models  
-- `mart_` prefix for mart models
-- `oracle_pkg_` prefix for Oracle package conversions
+1. Place Oracle packages in `oracle_packages/source_code/`
+2. Follow naming conventions in `QUICK_REFERENCE.md`
+3. Use the layered approach: staging → intermediate → marts
+4. Reference `AI_ASSISTANT_GUIDE.md` for detailed conversion patterns
 
 ### Rich Metadata
 - Comprehensive `schema.yml` files with column descriptions
@@ -106,68 +97,4 @@ This structure is designed to work optimally with coding assistants:
 ### Documentation-Driven Development
 - README files in each major directory
 - Conversion mapping documentation
-- Business logic preservation notes
 
-## Development Workflow
-
-### Feature Branch Process
-1. Create feature branch from `develop`
-2. Make changes to dbt models/documentation
-3. Test locally with `dbt run` and `dbt test`
-4. Commit changes with descriptive messages
-5. Push to remote feature branch
-6. Open Pull Request to `develop`
-
-### Recommended Commit Message Format
-```
-type(scope): description
-
-Examples:
-feat(oracle): convert PKG_FINANCE_CALC to dbt model
-docs(conversion): update mapping for sales packages
-fix(macro): correct oracle_months_between calculation
-test(finance): add validation for customer scoring model
-```
-
-## Branches
-
-- `main`: Production-ready code
-- `develop`: Development branch (default)
-- `feature/*`: Feature development branches
-
-## Getting Started
-
-### Prerequisites
-- dbt-core >= 1.0.0
-- Oracle database access
-- Python >= 3.8
-
-### Installation
-1. Clone the repository
-2. Navigate to `dbt_project/` directory
-3. Copy `.env.example` to `.env` and configure Oracle connection
-4. Install dbt dependencies: `dbt deps`
-5. Test connection: `dbt debug`
-
-### First Conversion
-1. Run Oracle analysis script to understand package structure
-2. Use the model template in `scripts/` to create your first conversion
-3. Follow the conversion guidelines in `docs/oracle_packages/README.md`
-
-## Contributing
-
-Please create feature branches from `develop` and submit pull requests back to `develop`.
-
-### Contribution Guidelines
-1. Follow dbt best practices for model organization
-2. Include comprehensive documentation for Oracle conversions
-3. Add appropriate tests for converted models
-4. Update conversion mapping documentation
-5. Preserve original Oracle business logic unless specifically changing it
-
-## Support
-
-For questions about Oracle package conversion or dbt best practices, please:
-1. Check the documentation in `docs/oracle_packages/`
-2. Review existing conversion examples in `models/oracle_packages/`
-3. Consult the Oracle utility macros in `macros/oracle_utils/`

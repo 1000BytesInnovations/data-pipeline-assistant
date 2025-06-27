@@ -4,29 +4,16 @@
 
 | Package | Procedures | Functions | Tables Used | dbt Models Created | Status |
 |---------|------------|-----------|-------------|-------------------|--------|
-| PKG_EXAMPLE | 3 | 2 | 5 | 8 | In Progress |
+| _No packages converted yet_ | - | - | - | - | Pending |
 
-## Conversion Statistics
+## Current Status
+- **Total Packages**: Awaiting Oracle source files
+- **Ready for conversion**: Place Oracle packages in `oracle_packages/source_code/`
 
-- **Total Packages**: 0
-- **Procedures Converted**: 0
-- **Functions Converted**: 0
-- **Macros Created**: 0
-- **Models Created**: 0
-- **Tests Added**: 0
-
-## Business Logic Distribution
-
-### By Layer
-- **Staging Models**: Data extraction and basic cleaning
-- **Intermediate Models**: Business logic and calculations
-- **Mart Models**: Final business reports and aggregations
-
-### By Domain
-- **Finance**: 0 packages
-- **Sales**: 0 packages  
-- **Operations**: 0 packages
-- **Other**: 0 packages
+## Next Steps
+1. Add Oracle package files (.sql, .pks, .pkb) to `oracle_packages/source_code/`
+2. Run conversion analysis
+3. Create dbt models following the established patterns
 
 ## Conversion Challenges
 

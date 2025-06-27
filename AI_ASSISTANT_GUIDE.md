@@ -1,53 +1,35 @@
-# 🤖 AI Coding Assistant Guide for Oracle to dbt Migration
+# 🤖 AI Assistant Guide for Oracle to dbt Migration
 
-## Project Overview
-This is an Oracle PL/SQL package to dbt models migration project using Snowflake as the target database. The structure is designed for systematic conversion of Oracle packages to modern dbt workflows.
+## Project Purpose
+Convert Oracle PL/SQL packages to dbt models running on Snowflake.
 
-## 📁 Project Structure & AI Instructions
+## Key Instructions for AI Assistants
 
-### **Oracle Package Location**
-- **Packages**: All Oracle packages (.sql, .pks, .pkb, .html) go in `oracle_packages/source_code/`
-- **Views**: Oracle view definitions go in `oracle_packages/views/`
-- **Organization**: Create subdirectories by package name or business domain
+### File Locations
+- **Oracle source files**: Place in `oracle_packages/source_code/{package_name}/`
+- **dbt models**: Create in `dbt_project/models/` following the layered approach
+- **Oracle utility macros**: Available in `dbt_project/macros/oracle_utils/`
 
-### **dbt Models Organization**
-When converting Oracle packages, follow this pattern:
-
+### Model Organization Pattern
 ```
 dbt_project/models/
-├── staging/
-│   └── {package_name}/           # Clean source tables for this package
-├── intermediate/  
-│   └── {package_name}/           # Complex business logic for this package
-├── marts/
-│   └── {business_domain}/        # Final outputs organized by business area
-└── oracle_packages/
-    └── {package_name}/           # Direct package conversions
+├── staging/{package_name}/       # Clean source tables
+├── intermediate/{package_name}/  # Business logic transformations  
+├── oracle_packages/{package_name}/ # Direct Oracle conversions
+└── marts/{business_domain}/      # Final business reports
 ```
 
-### **Naming Conventions**
-- **Staging models**: `stg_{table_name}.sql`
-- **Intermediate models**: `int_{purpose}.sql`
-- **Mart models**: `{business_area}_{report_name}.sql`
-- **Oracle package models**: `oracle_pkg_{function_name}.sql`
+### Naming Conventions
+- Staging: `stg_{table_name}.sql`
+- Intermediate: `int_{purpose}.sql`
+- Oracle conversions: `oracle_pkg_{function_name}.sql`
+- Marts: `{domain}_{report_name}.sql`
 
-## 🎯 AI Assistant Workflow
-
-### **Step 1: Analyze Oracle Components**
-When given Oracle packages or views:
-1. **Packages**: Identify package name, procedures, and functions
-2. **Views**: Identify view purpose and source tables
-3. Map source tables and business logic
-4. Determine target business domain (finance, sales, operations, etc.)
-
-### **Step 2: Create Folder Structure**
-```bash
-# Create package-specific folders
-mkdir dbt_project/models/staging/{package_name}
-mkdir dbt_project/models/intermediate/{package_name}  
-mkdir dbt_project/models/oracle_packages/{package_name}
-mkdir dbt_project/models/marts/{business_domain}
-```
+### Conversion Workflow
+1. Analyze Oracle package structure and dependencies
+2. Create appropriate folder structure
+3. Convert using available Oracle utility macros
+4. Add proper documentation and tests
 
 ### **Step 3: Create Models in Order**
 1. **Staging models** - Clean source tables
