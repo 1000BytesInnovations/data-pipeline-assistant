@@ -22,31 +22,31 @@ mkdir -p analysis/oracle_packages
 # SQL to extract package information
 cat > analysis/oracle_packages/extract_packages.sql << EOF
 -- Extract all packages in the schema
-SELECT 
+SELECT
     object_name as package_name,
     status,
     created,
     last_ddl_time
-FROM user_objects 
+FROM user_objects
 WHERE object_type = 'PACKAGE'
 ORDER BY object_name;
 
 -- Extract package procedures and functions
-SELECT 
+SELECT
     p.object_name as package_name,
     p.procedure_name,
-    CASE 
+    CASE
         WHEN a.argument_name IS NULL THEN 'PROCEDURE'
         WHEN a.data_type IS NOT NULL AND a.in_out = 'OUT' THEN 'FUNCTION'
         ELSE 'PROCEDURE'
     END as object_type,
     COUNT(a.argument_name) as parameter_count
 FROM user_procedures p
-LEFT JOIN user_arguments a ON p.object_name = a.package_name 
+LEFT JOIN user_arguments a ON p.object_name = a.package_name
     AND p.procedure_name = a.object_name
 WHERE p.object_type = 'PACKAGE'
-GROUP BY p.object_name, p.procedure_name, 
-    CASE 
+GROUP BY p.object_name, p.procedure_name,
+    CASE
         WHEN a.argument_name IS NULL THEN 'PROCEDURE'
         WHEN a.data_type IS NOT NULL AND a.in_out = 'OUT' THEN 'FUNCTION'
         ELSE 'PROCEDURE'
@@ -54,11 +54,11 @@ GROUP BY p.object_name, p.procedure_name,
 ORDER BY p.object_name, p.procedure_name;
 
 -- Extract package dependencies
-SELECT 
+SELECT
     name as package_name,
     referenced_name as depends_on,
     referenced_type as dependency_type
-FROM user_dependencies 
+FROM user_dependencies
 WHERE type = 'PACKAGE BODY'
     AND referenced_type IN ('TABLE', 'VIEW', 'PACKAGE', 'FUNCTION', 'PROCEDURE')
 ORDER BY name, referenced_name;

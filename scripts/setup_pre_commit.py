@@ -5,16 +5,18 @@ Pre-commit Setup Script for Data Pipeline Assistant
 This script sets up pre-commit hooks for the Oracle to dbt migration project.
 """
 
+import os
 import subprocess
 import sys
-import os
 
 
 def run_command(command, description):
     """Run a command and handle errors."""
     print(f"🔄 {description}...")
     try:
-        result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
+        result = subprocess.run(
+            command, shell=True, check=True, capture_output=True, text=True
+        )
         print(f"✅ {description} completed successfully")
         if result.stdout:
             print(f"   Output: {result.stdout.strip()}")
@@ -38,55 +40,62 @@ def check_python_version():
 def install_pre_commit():
     """Install pre-commit if not already installed."""
     try:
-        subprocess.run(['pre-commit', '--version'], check=True, capture_output=True)
+        subprocess.run(["pre-commit", "--version"], check=True, capture_output=True)
         print("✅ pre-commit is already installed")
         return True
     except (subprocess.CalledProcessError, FileNotFoundError):
         print("📦 Installing pre-commit...")
-        return run_command('pip install pre-commit', 'Installing pre-commit')
+        return run_command("pip install pre-commit", "Installing pre-commit")
 
 
 def setup_pre_commit_hooks():
     """Set up pre-commit hooks."""
     commands = [
-        ('pre-commit install', 'Installing pre-commit hooks'),
-        ('pre-commit install --hook-type commit-msg', 'Installing commit message hooks'),
-        ('pre-commit autoupdate', 'Updating hook repositories'),
+        ("pre-commit install", "Installing pre-commit hooks"),
+        (
+            "pre-commit install --hook-type commit-msg",
+            "Installing commit message hooks",
+        ),
+        ("pre-commit autoupdate", "Updating hook repositories"),
     ]
-    
+
     for command, description in commands:
         if not run_command(command, description):
             return False
-    
+
     return True
 
 
 def validate_configuration():
     """Validate pre-commit configuration."""
-    if not os.path.exists('.pre-commit-config.yaml'):
+    if not os.path.exists(".pre-commit-config.yaml"):
         print("❌ .pre-commit-config.yaml not found")
         return False
-    
+
     print("🔍 Validating pre-commit configuration...")
-    return run_command('pre-commit validate-config', 'Validating configuration')
+    return run_command("pre-commit validate-config", "Validating configuration")
 
 
 def run_initial_check():
     """Run pre-commit on all files for initial setup."""
     print("🧪 Running initial pre-commit check on all files...")
     print("   (This may take a while for the first run as it downloads dependencies)")
-    
+
     # Run with --all-files but don't fail if there are issues
-    result = subprocess.run(['pre-commit', 'run', '--all-files'], capture_output=True, text=True)
-    
+    result = subprocess.run(
+        ["pre-commit", "run", "--all-files"], capture_output=True, text=True
+    )
+
     if result.returncode == 0:
         print("✅ All pre-commit checks passed!")
     else:
-        print("⚠️  Some pre-commit checks found issues (this is normal for initial setup)")
+        print(
+            "⚠️  Some pre-commit checks found issues (this is normal for initial setup)"
+        )
         print("   The hooks will fix many issues automatically on commit")
         if result.stdout:
             print(f"   Output: {result.stdout[-500:]}")  # Show last 500 chars
-    
+
     return True
 
 
@@ -136,10 +145,10 @@ If hooks fail:
 
 The hooks are designed to maintain high code quality for Oracle to dbt migrations.
 """
-    
-    with open('.git-hooks-info.md', 'w') as f:
+
+    with open(".git-hooks-info.md", "w") as f:
         f.write(info_content)
-    
+
     print("📝 Created .git-hooks-info.md with usage information")
 
 
@@ -147,29 +156,29 @@ def main():
     """Main setup function."""
     print("🚀 Setting up pre-commit hooks for Data Pipeline Assistant")
     print("=" * 60)
-    
+
     # Check prerequisites
     if not check_python_version():
         sys.exit(1)
-    
+
     # Install pre-commit
     if not install_pre_commit():
         sys.exit(1)
-    
+
     # Validate configuration
     if not validate_configuration():
         sys.exit(1)
-    
+
     # Setup hooks
     if not setup_pre_commit_hooks():
         sys.exit(1)
-    
+
     # Run initial check
     run_initial_check()
-    
+
     # Create information file
     create_git_hooks_info()
-    
+
     print("\n" + "=" * 60)
     print("🎉 Pre-commit hooks setup completed successfully!")
     print("\nNext steps:")

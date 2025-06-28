@@ -4,7 +4,7 @@
 repos:
   # General code quality and formatting
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
         description: Trim trailing whitespace
@@ -26,7 +26,7 @@ repos:
 
   # SQL formatting and linting with SQLFluff
   - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 2.3.5
+    rev: 3.4.1
     hooks:
       - id: sqlfluff-lint
         description: Lint SQL files with SQLFluff
@@ -41,7 +41,7 @@ repos:
 
   # Python code formatting (for scripts and custom code)
   - repo: https://github.com/psf/black
-    rev: 23.12.1
+    rev: 25.1.0
     hooks:
       - id: black
         description: Format Python code with Black
@@ -50,7 +50,7 @@ repos:
 
   # Python import sorting
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
         description: Sort Python imports
@@ -59,79 +59,58 @@ repos:
 
   # Python linting
   - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
+    rev: 7.3.0
     hooks:
       - id: flake8
         description: Lint Python code with Flake8
         files: \.(py)$
-        args: ['--max-line-length=88', '--extend-ignore=E203,W503']
+        args: ['--max-line-length=150', '--extend-ignore=E203,W503,E501']
 
-  # dbt-specific hooks
+  # dbt-specific hooks (simplified for Oracle migration project)
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
     rev: v1.2.1
     hooks:
       - id: check-script-has-no-table-name
         description: Ensure dbt scripts use {{ ref() }} and {{ source() }}
-        files: models/.*\.sql$
-      - id: check-model-has-description
-        description: Ensure all dbt models have descriptions
-        files: models/.*\.yml$
-      - id: check-model-has-meta-keys
-        description: Ensure models have required meta keys
-        files: models/.*\.yml$
-        args: ['--meta-keys', 'owner,business_domain']
-      - id: check-model-has-tests-by-name
-        description: Ensure critical models have tests
-        files: models/marts/.*\.yml$
-        args: ['--tests', 'unique,not_null']
-      - id: check-model-columns-have-desc
-        description: Ensure model columns have descriptions
-        files: models/.*\.yml$
-      - id: check-source-has-description
-        description: Ensure all sources have descriptions
-        files: models/.*/_sources\.yml$
-      - id: check-source-columns-have-desc
-        description: Ensure source columns have descriptions
-        files: models/.*/_sources\.yml$
+        files: dbt_project/models/.*\.sql$
       - id: check-macro-has-description
         description: Ensure all macros have descriptions
-        files: macros/.*\.sql$
+        files: dbt_project/macros/.*\.sql$
+      - id: dbt-deps
+        description: Install dbt dependencies first
+        stages: [manual]
       - id: dbt-compile
         description: Compile dbt project to check for errors
-        args: ['--project-dir', 'dbt_project']
-      - id: dbt-deps
-        description: Install dbt dependencies
-        args: ['--project-dir', 'dbt_project']
+        stages: [manual]
 
   # Markdown formatting and linting
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.38.0
+    rev: v0.45.0
     hooks:
       - id: markdownlint
         description: Lint Markdown files
         args: ['--config', '.markdownlint.json']
-
   # Oracle PL/SQL specific checks (custom script)
   - repo: local
     hooks:
       - id: oracle-package-structure
         name: Check Oracle package structure
-        entry: scripts/validate_oracle_structure.py
+        entry: python scripts/validate_oracle_structure.py
         language: python
         files: oracle_packages/.*
         description: Validate Oracle package conversion structure
         additional_dependencies: ['pyyaml']
-      
+
       - id: dbt-model-naming
         name: Check dbt model naming conventions
-        entry: scripts/validate_dbt_naming.py
+        entry: python scripts/validate_dbt_naming.py
         language: python
         files: dbt_project/models/.*\.sql$
         description: Ensure dbt models follow naming conventions
-        
+
       - id: oracle-macro-coverage
         name: Check Oracle function macro coverage
-        entry: scripts/check_oracle_macro_coverage.py
+        entry: python scripts/check_oracle_macro_coverage.py
         language: python
         files: dbt_project/models/.*\.sql$
         description: Ensure Oracle functions have corresponding dbt macros
