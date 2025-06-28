@@ -1,6 +1,6 @@
 # Data Pipeline Assistant
 
-A comprehensive data pipeline management and automation tool designed for converting Oracle PL/SQL packages to dbt models.
+A comprehensive data pipeline management and automation tool designed for converting Oracle PL/SQL packages to dbt models with built-in quality assurance through pre-commit hooks.
 
 ## Project Overview
 
@@ -9,6 +9,27 @@ This repository contains a structured dbt project optimized for:
 - Maintaining clear lineage from Oracle source to dbt transformations
 - Supporting coding assistants with well-organized folder structures
 - Enabling collaboration between database developers and analytics engineers
+- **Automated code quality checks with pre-commit hooks**
+
+## Features
+
+### 🔧 **Code Quality & Formatting**
+- **Python**: Black formatting, isort imports, Flake8 linting
+- **SQL**: SQLFluff linting and formatting optimized for dbt + Snowflake
+- **YAML**: Validation for dbt configuration files
+- **Markdown**: Consistent documentation formatting
+- **General**: Trailing whitespace, line endings, merge conflicts
+
+### 🎯 **dbt-Specific Validations**
+- Model naming conventions enforcement
+- Required documentation checks (models, columns, sources)
+- Dependency management ({{ ref() }}, {{ source() }})
+
+### 🏛️ **Oracle Migration Specific**
+- Oracle package structure validation
+- Conversion documentation requirements
+- Oracle function → dbt macro coverage analysis
+- Migration progress tracking
 
 ## Repository Structure
 
@@ -37,17 +58,28 @@ This repository contains a structured dbt project optimized for:
 
 ### 1. Environment Setup
 ```bash
+# Install dependencies
+pip install -r requirements-precommit.txt
+```
+
+### 2. Setup Pre-commit Hooks
+```bash
+python scripts/setup_pre_commit.py
+```
+
+### 3. dbt Project Setup
+```bash
 cd dbt_project
 cp .env.example .env
 # Edit .env with your Oracle connection details
 ```
 
-### 2. Install dbt Dependencies
+### 4. Install dbt Dependencies
 ```bash
 dbt deps
 ```
 
-### 3. Test Connection
+### 5. Test Connection
 # Data Pipeline Assistant
 
 Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
@@ -80,7 +112,7 @@ Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
 
 Available macros for Oracle compatibility:
 - `{{ nvl('column', 'default') }}` - Replaces NVL
-- `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE  
+- `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE
 - `{{ oracle_to_date('date_string', 'format') }}` - Replaces TO_DATE
 
 ## Usage
@@ -108,6 +140,5 @@ This project includes comprehensive pre-commit hooks to ensure code quality:
 - **dbt Validation**: Model naming, documentation, test coverage
 - **Oracle Migration**: Package structure and macro coverage validation
 
-**Setup**: Run `python scripts/setup_pre_commit.py`  
+**Setup**: Run `python scripts/setup_pre_commit.py`
 **Documentation**: See [Pre-commit Feature Guide](docs/PRE_COMMIT_FEATURE.md)
-
