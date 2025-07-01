@@ -31,63 +31,18 @@ This repository contains a structured dbt project optimized for:
 - Oracle function → dbt macro coverage analysis
 - Migration progress tracking
 
-## Repository Structure
-
-```
-├── dbt_project/                 # Main dbt project
-│   ├── models/
-│   │   ├── staging/            # Base staging models
-│   │   ├── intermediate/       # Business logic models
-│   │   ├── marts/             # Final business models
-│   │   │   ├── finance/       # Finance domain models
-│   │   │   ├── sales/         # Sales domain models
-│   │   │   └── operations/    # Operations domain models
-│   │   └── oracle_packages/   # Direct Oracle package conversions
-│   ├── macros/
-│   │   └── oracle_utils/      # Oracle function conversion macros
-│   ├── tests/                 # Data quality tests
-│   ├── seeds/                 # Reference data
-│   ├── snapshots/             # SCD Type 2 tracking
-│   └── analysis/              # Ad-hoc analysis queries
-├── docs/
-│   └── oracle_packages/       # Oracle conversion documentation
-└── scripts/                   # Utility scripts for conversion
-```
-
-## Quick Start
-
-### 1. Environment Setup
-```bash
-# Install dependencies
-pip install -r requirements-precommit.txt
-```
-
-### 2. Setup Pre-commit Hooks
-```bash
-python scripts/setup_pre_commit.py
-```
-
-### 3. dbt Project Setup
-```bash
-cd dbt_project
-cp .env.example .env
-# Edit .env with your Oracle connection details
-```
-
-### 4. Install dbt Dependencies
-```bash
-dbt deps
-```
-
-### 5. Test Connection
-# Data Pipeline Assistant
-
-Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
 
 ## Quick Start
 
 1. **Add Oracle packages** to `oracle_packages/source_code/`
-2. **Configure connection** in `dbt_project/profiles.yml`
+2. **Configure connection** - Choose one:
+   - **Option A (File)**: Copy `dbt_project/.env.example` to `.env` and fill in credentials
+   - **Option B (CLI)**: Set environment variables in PowerShell:
+     ```powershell
+     $env:SNOWFLAKE_ACCOUNT = "your_account.region"
+     $env:SNOWFLAKE_USER = "your_username"
+     $env:SNOWFLAKE_PASSWORD = "your_password"
+     ```
 3. **Install dependencies**: `cd dbt_project && dbt deps`
 4. **Setup pre-commit hooks**: `python scripts/setup_pre_commit.py`
 5. **Run conversion**: Follow patterns in `QUICK_REFERENCE.md`
@@ -97,10 +52,8 @@ Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
 ```
 ├── dbt_project/                 # Main dbt project
 │   ├── models/
-│   │   ├── staging/            # Source data cleaning
-│   │   ├── intermediate/       # Business logic
-│   │   ├── marts/             # Final reports (finance, sales, operations)
-│   │   └── oracle_packages/   # Direct Oracle conversions
+│   │   ├── staging/            # Source definitions and examples
+│   │   └── {project_name}/     # Create folders per project/task
 │   └── macros/oracle_utils/   # Oracle function replacements
 ├── oracle_packages/           # Oracle source management
 │   ├── source_code/          # Put .sql, .pks, .pkb files here
@@ -111,8 +64,8 @@ Oracle PL/SQL to dbt migration tool for Snowflake data warehouse.
 ## Oracle Function Conversions
 
 Available macros for Oracle compatibility:
-- `{{ nvl('column', 'default') }}` - Replaces NVL
-- `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE
+- `{{ nvl('column', 'default') }}` - Replaces NVL with COALESCE
+- `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE with CASE statements
 - `{{ oracle_to_date('date_string', 'format') }}` - Replaces TO_DATE
 
 ## Usage
@@ -121,6 +74,9 @@ Available macros for Oracle compatibility:
 2. Follow naming conventions in `QUICK_REFERENCE.md`
 3. Use the layered approach: staging → intermediate → marts
 4. Reference `AI_ASSISTANT_GUIDE.md` for detailed conversion patterns
+5. See `models/staging/_sources_example.yml` for source definition examples
+
+## Key Features
 
 ### Rich Metadata
 - Comprehensive `schema.yml` files with column descriptions

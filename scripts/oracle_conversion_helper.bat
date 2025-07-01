@@ -51,7 +51,7 @@ echo Creating dbt model template...
 echo. > analysis\oracle_packages\model_template.sql
 echo {{ config( >> analysis\oracle_packages\model_template.sql
 echo     materialized='view', >> analysis\oracle_packages\model_template.sql
-echo     tags=['oracle_conversion', 'DOMAIN_NAME'], >> analysis\oracle_packages\model_template.sql
+echo     tags=['oracle_conversion', 'REPLACE_WITH_DOMAIN_NAME'], >> analysis\oracle_packages\model_template.sql
 echo     meta={ >> analysis\oracle_packages\model_template.sql
 echo         'oracle_package': 'ORIGINAL_PACKAGE_NAME', >> analysis\oracle_packages\model_template.sql
 echo         'original_procedure': 'ORIGINAL_PROCEDURE_NAME', >> analysis\oracle_packages\model_template.sql
@@ -59,7 +59,13 @@ echo         'conversion_notes': 'Description of conversion' >> analysis\oracle_
 echo     } >> analysis\oracle_packages\model_template.sql
 echo ^) }} >> analysis\oracle_packages\model_template.sql
 echo. >> analysis\oracle_packages\model_template.sql
-echo /* >> analysis\oracle_packages\model_template.sql
+echo /*  >> analysis\oracle_packages\model_template.sql
+echo     Template Instructions: >> analysis\oracle_packages\model_template.sql
+echo     1. Replace 'REPLACE_WITH_DOMAIN_NAME' with actual business domain (e.g., 'finance', 'sales') >> analysis\oracle_packages\model_template.sql
+echo     2. Replace 'ORIGINAL_PACKAGE_NAME' with actual Oracle package name >> analysis\oracle_packages\model_template.sql
+echo     3. Replace 'ORIGINAL_PROCEDURE_NAME' with actual procedure/function name >> analysis\oracle_packages\model_template.sql
+echo     4. Update the conversion logic below >> analysis\oracle_packages\model_template.sql
+echo      >> analysis\oracle_packages\model_template.sql
 echo     This model converts the Oracle package PACKAGE_NAME.PROCEDURE_NAME >> analysis\oracle_packages\model_template.sql
 echo     Original Oracle procedure/function description here >> analysis\oracle_packages\model_template.sql
 echo */ >> analysis\oracle_packages\model_template.sql

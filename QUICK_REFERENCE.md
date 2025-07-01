@@ -12,20 +12,20 @@
 - **Oracle Views**: `oracle_packages/views/{domain}/`
 - **dbt Models**: `dbt_project/models/`
 - **Oracle Macros**: `dbt_project/macros/oracle_utils/`
-- **Documentation**: `oracle_packages/mapping/` and `docs/`
+- **Documentation**: `oracle_packages/mapping/` and `oracle_packages/analysis/`
 
 ## Folder Creation Pattern:
 ```bash
 # For new Oracle package "PKG_BILLING":
 models/staging/pkg_billing/          # Source table cleaning
-models/intermediate/pkg_billing/     # Business logic  
+models/intermediate/pkg_billing/     # Business logic
 models/oracle_packages/pkg_billing/  # Direct conversions
 models/marts/billing/               # Final reports
 ```
 
 ## Model Naming:
 - Staging: `stg_{table_name}.sql`
-- Intermediate: `int_{purpose}.sql` 
+- Intermediate: `int_{purpose}.sql`
 - Oracle conversion: `oracle_pkg_{function_name}.sql`
 - Marts: `{domain}_{report_name}.sql`
 

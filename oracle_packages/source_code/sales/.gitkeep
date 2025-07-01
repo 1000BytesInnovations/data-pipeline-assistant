@@ -1,0 +1,2 @@
+# This file ensures the sales directory is tracked by git
+# Place Oracle sales and marketing packages (.sql, .pks, .pkb) in this directory

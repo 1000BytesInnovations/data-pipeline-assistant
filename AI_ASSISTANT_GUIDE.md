@@ -13,17 +13,18 @@ Convert Oracle PL/SQL packages to dbt models running on Snowflake.
 ### Model Organization Pattern
 ```
 dbt_project/models/
-├── staging/{package_name}/       # Clean source tables
-├── intermediate/{package_name}/  # Business logic transformations  
-├── oracle_packages/{package_name}/ # Direct Oracle conversions
-└── marts/{business_domain}/      # Final business reports
+├── staging/                     # Shared staging models (source cleaning)
+├── {project_name}/             # Project-specific folder
+│   ├── intermediate/           # Project business logic
+│   └── marts/                  # Project final outputs
+└── oracle_conversions/         # Oracle package conversions (when needed)
 ```
 
 ### Naming Conventions
-- Staging: `stg_{table_name}.sql`
-- Intermediate: `int_{purpose}.sql`
-- Oracle conversions: `oracle_pkg_{function_name}.sql`
-- Marts: `{domain}_{report_name}.sql`
+- Staging: `stg_{table_name}.sql` (shared across projects)
+- Intermediate: `int_{project}_{purpose}.sql`
+- Oracle conversions: `oracle_{package_name}_{function}.sql`
+- Marts: `{project}_{report_name}.sql`
 
 ### Conversion Workflow
 1. Analyze Oracle package structure and dependencies
@@ -39,7 +40,7 @@ dbt_project/models/
 
 ### **Step 4: Use Oracle Compatibility**
 - Use macros from `macros/oracle_utils/` for Oracle functions
-- Available macros: `nvl()`, `decode()`, `oracle_months_between()`, etc.
+- Available macros: `nvl()`, `decode()`
 
 ## 🔧 Oracle Function Conversion Guide
 
