@@ -1,6 +1,6 @@
 # Data Pipeline Assistant
 
-A comprehensive data pipeline management and automation tool designed for converting Oracle PL/SQL packages to dbt models.
+A comprehensive data pipeline management and automation tool designed for converting Oracle PL/SQL packages to dbt models with built-in quality assurance through pre-commit hooks.
 
 ## Project Overview
 
@@ -9,6 +9,28 @@ This repository contains a structured dbt project optimized for:
 - Maintaining clear lineage from Oracle source to dbt transformations
 - Supporting coding assistants with well-organized folder structures
 - Enabling collaboration between database developers and analytics engineers
+- **Automated code quality checks with pre-commit hooks**
+
+## Features
+
+### 🔧 **Code Quality & Formatting**
+- **Python**: Black formatting, isort imports, Flake8 linting
+- **SQL**: SQLFluff linting and formatting optimized for dbt + Snowflake
+- **YAML**: Validation for dbt configuration files
+- **Markdown**: Consistent documentation formatting
+- **General**: Trailing whitespace, line endings, merge conflicts
+
+### 🎯 **dbt-Specific Validations**
+- Model naming conventions enforcement
+- Required documentation checks (models, columns, sources)
+- Dependency management ({{ ref() }}, {{ source() }})
+
+### 🏛️ **Oracle Migration Specific**
+- Oracle package structure validation
+- Conversion documentation requirements
+- Oracle function → dbt macro coverage analysis
+- Migration progress tracking
+
 
 ## Quick Start
 
@@ -22,7 +44,8 @@ This repository contains a structured dbt project optimized for:
      $env:SNOWFLAKE_PASSWORD = "your_password"
      ```
 3. **Install dependencies**: `cd dbt_project && dbt deps`
-4. **Run conversion**: Follow patterns in `QUICK_REFERENCE.md`
+4. **Setup pre-commit hooks**: `python scripts/setup_pre_commit.py`
+5. **Run conversion**: Follow patterns in `QUICK_REFERENCE.md`
 
 ## Project Structure
 
@@ -43,6 +66,7 @@ This repository contains a structured dbt project optimized for:
 Available macros for Oracle compatibility:
 - `{{ nvl('column', 'default') }}` - Replaces NVL with COALESCE
 - `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE with CASE statements
+- `{{ oracle_to_date('date_string', 'format') }}` - Replaces TO_DATE
 
 ## Usage
 
@@ -63,3 +87,14 @@ Available macros for Oracle compatibility:
 - README files in each major directory
 - Conversion mapping documentation
 
+## Code Quality & Pre-commit Hooks
+
+This project includes comprehensive pre-commit hooks to ensure code quality:
+
+- **SQL Linting**: SQLFluff with dbt/Snowflake optimization
+- **Python Formatting**: Black, isort, Flake8
+- **dbt Validation**: Model naming, documentation, test coverage
+- **Oracle Migration**: Package structure and macro coverage validation
+
+**Setup**: Run `python scripts/setup_pre_commit.py`
+**Documentation**: See [Pre-commit Feature Guide](docs/PRE_COMMIT_FEATURE.md)

@@ -2,6 +2,11 @@
 
 ## Project Type: Oracle PL/SQL → dbt + Snowflake Migration
 
+## Setup Checklist:
+1. Install dbt dependencies: `cd dbt_project && dbt deps`
+2. Setup pre-commit hooks: `python scripts/setup_pre_commit.py`
+3. Configure profiles: `dbt_project/profiles.yml`
+
 ## Key Locations:
 - **Oracle Packages**: `oracle_packages/source_code/{package_name}/`
 - **Oracle Views**: `oracle_packages/views/{domain}/`
@@ -13,14 +18,14 @@
 ```bash
 # For new Oracle package "PKG_BILLING":
 models/staging/pkg_billing/          # Source table cleaning
-models/intermediate/pkg_billing/     # Business logic  
+models/intermediate/pkg_billing/     # Business logic
 models/oracle_packages/pkg_billing/  # Direct conversions
 models/marts/billing/               # Final reports
 ```
 
 ## Model Naming:
 - Staging: `stg_{table_name}.sql`
-- Intermediate: `int_{purpose}.sql` 
+- Intermediate: `int_{purpose}.sql`
 - Oracle conversion: `oracle_pkg_{function_name}.sql`
 - Marts: `{domain}_{report_name}.sql`
 

@@ -42,7 +42,7 @@ Oracle views will typically become:
 ```sql
 -- Original Oracle View: V_CUSTOMER_SUMMARY
 CREATE OR REPLACE VIEW V_CUSTOMER_SUMMARY AS
-SELECT 
+SELECT
     customer_id,
     customer_name,
     total_orders,

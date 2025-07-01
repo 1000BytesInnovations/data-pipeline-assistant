@@ -1,0 +1,25 @@
+# Pre-commit dependencies for Data Pipeline Assistant
+# These packages are required for the custom validation scripts
+
+# Core pre-commit package
+pre-commit>=3.6.0
+
+# Python dependencies for validation scripts
+pyyaml>=6.0
+pathlib2>=2.3.7; python_version < '3.4'
+
+# Optional: dbt packages for enhanced validation
+dbt-core>=1.7.0
+dbt-snowflake>=1.7.0
+
+# SQL formatting and linting
+sqlfluff>=2.3.0
+sqlfluff-templater-dbt>=2.3.0
+
+# Python code quality tools (installed by pre-commit but listed for reference)
+black>=23.12.0
+isort>=5.13.0
+flake8>=7.0.0
+
+# Markdown linting (installed via pre-commit hook, not pip)
+# markdownlint-cli>=0.38.0
