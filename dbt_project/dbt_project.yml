@@ -27,6 +27,7 @@ models:
     # Config indicated by + and applies to all files under models/staging/
     staging:
       +materialized: view
+      +schema: staging
       +docs:
         node_color: "#7FB3D3"
       +tags: ["staging"]
@@ -41,6 +42,7 @@ models:
     # Config for mart models
     marts:
       +materialized: table
+      +schema: marts
       +docs:
         node_color: "#80B1D3"
       +tags: ["marts"]
