@@ -30,21 +30,21 @@ models:
       +docs:
         node_color: "#7FB3D3"
       +tags: ["staging"]
-    
+
     # Config for intermediate models
     intermediate:
       +materialized: ephemeral
       +docs:
         node_color: "#FDB462"
       +tags: ["intermediate"]
-    
+
     # Config for mart models
     marts:
       +materialized: table
       +docs:
         node_color: "#80B1D3"
       +tags: ["marts"]
-      
+
       # Business area specific configs
       finance:
         +tags: ["finance", "marts"]
@@ -52,7 +52,7 @@ models:
         +tags: ["sales", "marts"]
       operations:
         +tags: ["operations", "marts"]
-    
+
     # Oracle packages conversion models
     oracle_packages:
       +materialized: view
@@ -82,16 +82,16 @@ vars:
   # Snowflake specific settings
   snowflake_database: "{{ env_var('SNOWFLAKE_DATABASE', 'ANALYTICS_DEV') }}"
   snowflake_schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'DBT_DEV') }}"
-  
+
   # Date configurations for Oracle conversion
   start_date: '2020-01-01'
   end_date: '2024-12-31'
-  
+
   # Oracle package mapping (for reference only)
   package_prefix: 'PKG_'
   procedure_prefix: 'PROC_'
   function_prefix: 'FN_'
-  
+
   # Source data configuration
   source_database: "{{ env_var('SNOWFLAKE_DATABASE', 'ANALYTICS_DEV') }}"
   source_schema: "RAW_DATA"

@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: oracle_pkg_tank_detail_pipeline
+    description: >
+      Complete Oracle package conversion for PKG_SSP_TANK_DETAIL.
+
+      This model replicates the exact logic and flow of the Oracle package,
+      maintaining compatibility with the original system while leveraging
+      Snowflake's performance optimizations.
+
+      Oracle Steps Covered:
+      - Step 0-3: Control flow and partition management
+      - Step 4-6: Source validation (SSP_TANK_DETAIL_SRCVALID_01)
+      - Step 7-9: Blend expression (SSP_TANK_DETAIL_BLND_EXP_02)
+      - Step 10-12: By application (SSP_TANK_DETAIL_BY_APP_03)
+      - Step 13-15: By variety (SSP_TANK_DETAIL_BY_VRTY_04)
+      - Step 16-18: Final consolidation (SSP_TANK_DETAIL)
+    meta:
+      oracle_source_package: "PKG_SSP_TANK_DETAIL"
+      oracle_step: "Complete Pipeline"
+      layer: "oracle_packages"
+      business_domain: "tank_detail"
+      conversion_approach: "Direct Oracle replication"
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: ref('int_tank_detail_by_variety')
+    columns:
+      - name: calendar_year
+        description: "Calendar year from source calendar"
+        tests:
+          - not_null
+      - name: processing_type
+        description: "Type of processing applied"
+        tests:
+          - not_null
+      - name: variety_classification
+        description: "Variety classification result"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['HIGH_VARIETY', 'STANDARD_VARIETY']
+      - name: app_record_count
+        description: "Count of records from application layer"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+      - name: total_blend_key
+        description: "Sum of blend keys"
+        tests:
+          - not_null
+      - name: variety_adjusted_key
+        description: "Variety-adjusted calculation key"
+        tests:
+          - not_null
+      - name: expression_hash
+        description: "Hash from blend expression layer"
+        tests:
+          - not_null
+      - name: final_calculation
+        description: "Final calculated value combining variety and expression"
+        tests:
+          - not_null
+      - name: _dbt_loaded_at
+        description: "Timestamp when record was processed by dbt"
+        tests:
+          - not_null
+      - name: _dbt_run_started_at
+        description: "dbt run start timestamp"
+        tests:
+          - not_null

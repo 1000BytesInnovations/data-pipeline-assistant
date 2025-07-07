@@ -1,62 +1,89 @@
-# Oracle Packages Documentation
+# Oracle Packages Repository
 
-This directory contains the Oracle packages that need to be converted to dbt models.
+This directory contains Oracle database packages that are being migrated to dbt models for Snowflake.
 
-## Directory Structure
+## Structure
 
-```
+```bash
+
 oracle_packages/
-├── source_code/          # Original Oracle package files (.sql, .pks, .pkb)
-├── views/               # Oracle view definitions (separate from packages)
-├── documentation/        # Package documentation and specifications
-├── mapping/             # Mapping files between Oracle and dbt models
-└── analysis/           # Analysis reports and conversion notes
-```
+├── analysis/                    # Package analysis and conversion documentation
+│   ├── PKG_SSP_TANK_DETAIL_analysis.md
+│   └── PKG_SSP_TANK_DETAIL_conversion_summary.md
+├── source_code/                # Original Oracle package source files
+├── views/                      # Oracle view definitions (if applicable)
+└── README.md                   # This file
 
-## Adding Oracle Packages and Views
+```bash
 
-1. **Packages**: Place your Oracle package files (`.sql`, `.pks`, `.pkb`) in the `source_code/` directory
-2. **Views**: Place Oracle view definitions in the `views/` directory
-3. Organize by business domain or functionality
-4. Add corresponding documentation in the `documentation/` directory
-5. Create mapping files in the `mapping/` directory to track conversions
+## Purpose
 
-## Naming Conventions
+Each Oracle package undergoes a systematic conversion process:
 
-- Source files: Keep original Oracle naming conventions
-- Documentation: `{package_name}_documentation.md`
-- Mapping files: `{package_name}_mapping.yml`
-- Analysis: `{package_name}_analysis.md`
+1. **Analysis**: Detailed analysis of the Oracle package structure, dependencies, and business logic
 
-## Conversion Process
+2. **Documentation**: Comprehensive mapping of Oracle constructs to dbt equivalents
 
-1. **Analysis**: Understand the Oracle package functionality
-2. **Mapping**: Create mapping between Oracle procedures/functions and dbt models
-3. **Implementation**: Create dbt models in the appropriate layer (staging/intermediate/marts)
-4. **Testing**: Add data tests to ensure accuracy
-5. **Documentation**: Document the converted models
+3. **Conversion**: Implementation of dbt models following the layered architecture
 
-## Example Structure
+4. **Testing**: Validation of converted logic against Oracle source
 
-```
-source_code/
-├── finance/
-│   ├── PKG_FINANCIAL_REPORTS.sql
-│   ├── PKG_GL_PROCESSING.sql
-│   └── PKG_BUDGET_CALCULATIONS.sql
-├── sales/
-│   ├── PKG_SALES_ANALYTICS.sql
-│   └── PKG_COMMISSION_CALC.sql
-└── operations/
-    ├── PKG_INVENTORY_MGMT.sql
-    └── PKG_SUPPLY_CHAIN.sql
+## Conversion Standards
 
-views/
-├── finance/
-│   ├── V_FINANCIAL_SUMMARY.sql
-│   └── V_BUDGET_REPORT.sql
-├── sales/
-│   └── V_SALES_DASHBOARD.sql
-└── shared/
-    └── V_COMMON_LOOKUPS.sql
-```
+- **Staging Layer**: Direct source table mappings with minimal transformations
+
+- **Intermediate Layer**: Business logic decomposition and modular transformations
+
+- **Marts Layer**: Final business-ready models optimized for analytics
+
+- **Oracle Packages Layer**: Direct Oracle-to-dbt conversions for comparison
+
+## Package Status
+
+### ✅ PKG_SSP_TANK_DETAIL (Completed)
+
+- **Analysis**: Complete 25-step Oracle procedure decomposed
+
+- **Models**: 8 dbt models created across all layers
+
+- **Testing**: 50+ data quality tests implemented
+
+- **Documentation**: Full schema.yml files with business descriptions
+
+## Migration Guidelines
+
+For each new Oracle package:
+
+1. Place original Oracle source files in `source_code/`
+
+2. Create detailed analysis in `analysis/[PACKAGE_NAME]_analysis.md`
+
+3. Document conversion decisions in `analysis/[PACKAGE_NAME]_conversion_summary.md`
+
+4. Implement dbt models following the established patterns
+
+5. Create comprehensive tests and documentation
+
+## Quality Standards
+
+All conversions must include:
+
+- Complete business logic documentation
+
+- Data quality tests at each layer
+
+- Performance optimization for Snowflake
+
+- Incremental processing where applicable
+
+- Error handling and data validation
+
+## Support
+
+For questions about Oracle package conversions, refer to:
+
+- `AI_ASSISTANT_GUIDE.md` - Detailed conversion patterns and templates
+
+- `docs/PRE_COMMIT_FEATURE.md` - Code quality standards
+
+- Individual package analysis files for specific implementation details

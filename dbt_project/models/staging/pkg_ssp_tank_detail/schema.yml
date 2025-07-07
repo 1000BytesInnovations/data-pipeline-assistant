@@ -1,0 +1,62 @@
+version: 2
+
+sources:
+  - name: lnd_manual_entry
+    description: "Landing zone for manual entry data"
+    schema: lnd_manual_entry
+    tables:
+      - name: ssp_rr_calendar
+        description: "Calendar reference data for SSP tank detail processing"
+        identifier: ssp_rr_calendar
+        columns:
+          - name: calendar_year
+            description: "Calendar year"
+            tests:
+              - not_null
+          - name: calendar_month
+            description: "Calendar month (1-12)"
+            tests:
+              - not_null
+              - accepted_values:
+                  values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+          - name: active_flg
+            description: "Flag indicating if processing is active (Y/N)"
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['Y', 'N']
+
+models:
+  - name: stg_ssp_rr_calendar
+    description: "Cleaned and standardized calendar reference data"
+    meta:
+      oracle_source_package: "PKG_SSP_TANK_DETAIL"
+      layer: "staging"
+      business_domain: "tank_detail"
+    columns:
+      - name: calendar_year
+        description: "Calendar year"
+        tests:
+          - not_null
+      - name: calendar_month
+        description: "Calendar month (1-12)"
+        tests:
+          - not_null
+      - name: active_flg
+        description: "Processing active flag"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Y', 'N']
+      - name: part_val_date
+        description: "Partition value as date (first day of month)"
+        tests:
+          - not_null
+      - name: part_val_string
+        description: "Partition value as string (YYYY-MM-DD format)"
+        tests:
+          - not_null
+      - name: _dbt_loaded_at
+        description: "Timestamp when record was loaded by dbt"
+        tests:
+          - not_null

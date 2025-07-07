@@ -1,43 +1,58 @@
 # Oracle Source Code
 
-Place your Oracle package files (.sql, .pks, .pkb) in this directory, organized by business domain.
+This directory contains the original Oracle package source files that are being converted to dbt models.
 
 ## Structure
 
-```
+```bash
+
 source_code/
-├── finance/          # Financial packages
-├── sales/            # Sales and marketing packages  
-├── operations/       # Operations and logistics packages
-└── {domain}/         # Add more domains as needed
-```
+├── PKG_SSP_TANK_DETAIL/
+│   ├── package_body.sql        # Original Oracle package body
+│   ├── package_spec.sql        # Original Oracle package specification
+│   └── dependencies.md         # Package dependencies and objects used
+└── [OTHER_PACKAGES]/
 
-## File Types
+```bash
 
-- **`.sql`** - Complete Oracle package (spec + body)
-- **`.pks`** - Package specification only
-- **`.pkb`** - Package body only
+## Purpose
 
-## Naming Convention
+This directory serves as the authoritative source for:
 
-Keep original Oracle naming:
-- `PKG_FINANCIAL_REPORTS.sql`
-- `PKG_SALES_ANALYTICS.pks` + `PKG_SALES_ANALYTICS.pkb`
-- `PKG_COMMISSION_CALC.sql`
+- Original Oracle package code for reference during conversion
+
+- Dependency analysis and impact assessment
+
+- Version control of source packages
+
+- Validation and testing against original logic
+
+## File Naming Convention
+
+- `package_body.sql` - The main package body containing procedures and functions
+
+- `package_spec.sql` - Package specification with public interface definitions
+
+- `dependencies.md` - Documentation of all database objects referenced by the package
 
 ## Usage
 
-1. **Copy Oracle files** into appropriate domain folder
-2. **Run analysis** using scripts in `/scripts` folder  
-3. **Create dbt models** following patterns in AI_ASSISTANT_GUIDE.md
-4. **Document conversion** in `/oracle_packages/analysis`
+These files are used by:
 
-## Example
+1. **Analysis Phase**: Understanding the original business logic and data flow
 
-```
-finance/
-├── PKG_FINANCIAL_REPORTS.sql      # Complete package
-├── PKG_GL_PROCESSING.pks          # Package spec
-├── PKG_GL_PROCESSING.pkb          # Package body
-└── PKG_BUDGET_CALCULATIONS.sql    # Complete package
-```
+2. **Conversion Phase**: Ensuring accurate translation to dbt models
+
+3. **Testing Phase**: Comparing outputs between Oracle and dbt implementations
+
+4. **Documentation Phase**: Creating comprehensive conversion documentation
+
+## Maintenance
+
+- Source files should be read-only once placed here
+
+- Any changes to Oracle source should be documented in the analysis files
+
+- Version information should be included in the dependency documentation
+
+For PKG_SSP_TANK_DETAIL, the original Oracle source has been analyzed and documented in the `analysis/` directory.

@@ -1,0 +1,119 @@
+version: 2
+
+models:
+  - name: int_tank_detail_source_validation
+    description: "Source validation layer for tank detail processing"
+    meta:
+      oracle_source_package: "PKG_SSP_TANK_DETAIL"
+      oracle_step: "STG_EDW.SSP_TANK_DETAIL_SRCVALID_01"
+      layer: "intermediate"
+      business_domain: "tank_detail"
+    columns:
+      - name: calendar_year
+        description: "Calendar year from source"
+        tests:
+          - not_null
+      - name: calendar_month
+        description: "Calendar month from source"
+        tests:
+          - not_null
+      - name: quarter
+        description: "Derived quarter (Q1-Q4)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Q1', 'Q2', 'Q3', 'Q4']
+      - name: season
+        description: "Derived season (Summer/Winter)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Summer', 'Winter']
+      - name: validation_status
+        description: "Validation result status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['VALID', 'INVALID']
+
+  - name: int_tank_detail_blend_expression
+    description: "Blend expression layer with calculated fields"
+    meta:
+      oracle_source_package: "PKG_SSP_TANK_DETAIL"
+      oracle_step: "STG_EDW.SSP_TANK_DETAIL_BLND_EXP_02"
+      layer: "intermediate"
+      business_domain: "tank_detail"
+    columns:
+      - name: year_month_key
+        description: "Composite key of year and month"
+        tests:
+          - not_null
+          - unique
+      - name: quarter_blend_key
+        description: "Quarter-based blend key"
+        tests:
+          - not_null
+      - name: blend_expression_hash
+        description: "Hash of blend expression"
+        tests:
+          - not_null
+
+  - name: int_tank_detail_by_application
+    description: "Application-level aggregations"
+    meta:
+      oracle_source_package: "PKG_SSP_TANK_DETAIL"
+      oracle_step: "STG_EDW.SSP_TANK_DETAIL_BY_APP_03"
+      layer: "intermediate"
+      business_domain: "tank_detail"
+    columns:
+      - name: application_type
+        description: "Type of application context"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['WINTER_APP', 'SUMMER_APP']
+      - name: volume_category
+        description: "Volume categorization"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['HIGH_VOLUME', 'MEDIUM_VOLUME', 'LOW_VOLUME']
+      - name: record_count
+        description: "Count of records in aggregation"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+  - name: int_tank_detail_by_variety
+    description: "Variety-level aggregations - final intermediate layer"
+    meta:
+      oracle_source_package: "PKG_SSP_TANK_DETAIL"
+      oracle_step: "STG_EDW.SSP_TANK_DETAIL_BY_VRTY_04"
+      layer: "intermediate"
+      business_domain: "tank_detail"
+    columns:
+      - name: variety_type
+        description: "Type of variety classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['VARIETY_A', 'VARIETY_B']
+      - name: variety_grade
+        description: "Grade of variety"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['PREMIUM', 'STANDARD', 'BASIC']
+      - name: processing_status
+        description: "Status for downstream processing"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['READY_FOR_PROCESSING', 'INSUFFICIENT_DATA']
+      - name: total_records
+        description: "Total records across all applications"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0

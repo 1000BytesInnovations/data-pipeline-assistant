@@ -1,0 +1,131 @@
+version: 2
+
+models:
+  - name: tank_detail_consolidated
+    description: >
+      Final consolidated tank detail mart combining all intermediate processing layers.
+
+      This mart represents the business-ready output equivalent to the Oracle
+      LND_MANUAL_ENTRY.SSP_TANK_DETAIL table, providing comprehensive tank detail
+      analytics and reporting capabilities.
+    meta:
+      oracle_source_package: "PKG_SSP_TANK_DETAIL"
+      layer: "marts"
+      business_domain: "tank_detail"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "total_records > 0"
+      - dbt_utils.not_null_proportion:
+          at_least: 0.95
+    columns:
+      - name: tank_detail_key
+        description: "Unique identifier for tank detail record"
+        tests:
+          - not_null
+          - unique
+      - name: calendar_year
+        description: "Calendar year"
+        tests:
+          - not_null
+      - name: application_type
+        description: "Application context type"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['WINTER_APP', 'SUMMER_APP']
+      - name: variety_type
+        description: "Variety classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['VARIETY_A', 'VARIETY_B']
+      - name: variety_grade
+        description: "Grade of variety"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['PREMIUM', 'STANDARD', 'BASIC']
+      - name: performance_indicator
+        description: "Performance classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['HIGH_PERFORMANCE', 'MEDIUM_PERFORMANCE', 'LOW_PERFORMANCE']
+      - name: quality_score
+        description: "Quality score (0-100)"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+      - name: adjusted_blend_value
+        description: "Grade-adjusted blend value"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+  - name: tank_detail_bima
+    description: >
+      BIMA-specific tank detail processing mart.
+
+      This mart corresponds to the Oracle LND_MANUAL_ENTRY.SSP_TANK_DETAIL_BIMA table,
+      providing BIMA-specific transformations, risk assessments, and compliance tracking.
+    meta:
+      oracle_source_package: "PKG_SSP_TANK_DETAIL"
+      oracle_step: "LND_MANUAL_ENTRY.SSP_TANK_DETAIL_BIMA"
+      layer: "marts"
+      business_domain: "tank_detail"
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "bima_quality_score <= quality_score * 0.9"
+    columns:
+      - name: bima_tank_detail_key
+        description: "Unique BIMA tank detail identifier"
+        tests:
+          - not_null
+          - unique
+      - name: tank_detail_key
+        description: "Reference to source tank detail record"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('tank_detail_consolidated')
+              field: tank_detail_key
+      - name: bima_season_type
+        description: "BIMA seasonal classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['BIMA_WINTER', 'BIMA_SUMMER']
+      - name: bima_volume_category
+        description: "BIMA volume classification"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['BIMA_HIGH_VOLUME', 'BIMA_MEDIUM_VOLUME', 'BIMA_LOW_VOLUME', 'BIMA_MINIMAL_VOLUME']
+      - name: bima_risk_category
+        description: "BIMA risk assessment"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['LOW_RISK', 'MEDIUM_RISK', 'HIGH_RISK']
+      - name: bima_compliance_status
+        description: "BIMA compliance status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['COMPLIANT', 'PARTIAL_COMPLIANT', 'NON_COMPLIANT']
+      - name: bima_quality_score
+        description: "BIMA-adjusted quality score"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+      - name: bima_adjusted_value
+        description: "BIMA-adjusted blend value"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0

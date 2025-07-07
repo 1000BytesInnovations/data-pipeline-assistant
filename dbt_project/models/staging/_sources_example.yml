@@ -24,7 +24,7 @@ sources:
             description: "Date customer record was created"
           - name: updated_date
             description: "Date customer record was last updated"
-            
+
       - name: sales_data
         description: "Sales transaction data from Oracle"
         columns:

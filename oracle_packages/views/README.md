@@ -1,53 +1,79 @@
 # Oracle Views
 
-This directory contains Oracle view definitions and logic that are separate from packages.
-
-## Purpose
-- Store standalone Oracle views (.sql files)
-- Organize view logic that doesn't belong to specific packages
-- Maintain view dependencies and documentation
+This directory contains Oracle view definitions that are referenced by the packages being converted.
 
 ## Structure
-```
-oracle_packages/views/
-├── business_domain_1/
-│   ├── view_name_1.sql
-│   └── view_name_2.sql
-├── business_domain_2/
-│   └── view_name_3.sql
-└── shared/
-    └── common_views.sql
-```
 
-## Naming Convention
-- **View files**: `{view_name}.sql` (keep original Oracle view name)
-- **Folders**: Organize by business domain or functional area
-- **Shared views**: Put common/utility views in `shared/` subfolder
+```bash
 
-## View Documentation
+views/
+├── PKG_SSP_TANK_DETAIL/
+│   ├── view_definitions.sql    # Views used by PKG_SSP_TANK_DETAIL
+│   └── view_dependencies.md    # Documentation of view relationships
+└── [OTHER_PACKAGES]/
+
+```bash
+
+## Purpose
+
+Oracle packages often reference views that need to be:
+
+- Converted to dbt models or sources
+
+- Documented for dependency analysis
+
+- Mapped to Snowflake equivalents
+
+- Included in the overall data lineage
+
+## View Categories
+
+### Data Views
+
+- Views that provide data transformations
+
+- Often converted to dbt intermediate models
+
+- May include complex business logic
+
+### Lookup Views
+
+- Reference data and lookup tables
+
+- Typically converted to dbt seed files or sources
+
+- Usually small, slowly-changing datasets
+
+### Security Views
+
+- Views that implement row-level security
+
+- May need special handling in Snowflake
+
+- Should be documented for governance requirements
+
+## Conversion Guidelines
+
+1. **Simple Views**: Convert to dbt models in the appropriate layer
+
+2. **Complex Views**: Decompose into multiple intermediate models
+
+3. **Materialized Views**: Convert to dbt tables with appropriate refresh strategies
+
+4. **Security Views**: Implement using Snowflake's row access policies
+
+## Documentation Requirements
+
 For each view, document:
-- Original Oracle view name
-- Business purpose and logic
-- Source tables and dependencies
-- Target dbt model mapping
-- Any transformations needed
 
-## Conversion to dbt
-Oracle views will typically become:
-- **Staging models** if they clean/standardize data
-- **Intermediate models** if they contain business logic
-- **Mart models** if they're final business outputs
+- Original Oracle DDL
 
-## Example
-```sql
--- Original Oracle View: V_CUSTOMER_SUMMARY
-CREATE OR REPLACE VIEW V_CUSTOMER_SUMMARY AS
-SELECT
-    customer_id,
-    customer_name,
-    total_orders,
-    total_spent
-FROM customer_base_table;
-```
+- Business purpose and usage
 
-Convert to dbt model: `models/marts/customer/customer_summary.sql`
+- Dependencies on tables and other views
+
+- Proposed dbt model mapping
+
+- Any Snowflake-specific considerations
+
+Currently, PKG_SSP_TANK_DETAIL does not reference external views, but this directory is maintained for future packages that may have view dependencies.

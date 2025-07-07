@@ -68,7 +68,7 @@ repos:
 
   # dbt-specific hooks (simplified for Oracle migration project)
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
-    rev: v1.2.1
+    rev: v2.0.7
     hooks:
       - id: check-script-has-no-table-name
         description: Ensure dbt scripts use {{ ref() }} and {{ source() }}

@@ -169,7 +169,7 @@ def main():
     if all_errors:
         print("Oracle macro coverage validation failed:")
         for error in all_errors:
-            print(f"  ❌ {error}")
+            print(f"  X {error}")
 
         if missing_functions:
             print("\nSuggestions for missing macros:")

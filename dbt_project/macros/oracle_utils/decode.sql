@@ -3,13 +3,16 @@
   Usage: {{ decode('column_name', 'value1', 'result1', 'value2', 'result2', 'default') }}
 #}
 
-{% macro decode(column, *args) %}
-  case {{ column }}
-    {% for i in range(0, args|length - 1, 2) %}
-      when {{ args[i] }} then {{ args[i + 1] }}
+{% macro decode(column, values_and_results) %}
+    {%- set pairs = values_and_results.split(',') -%}
+    case {{ column }}
+    {% for i in range(0, pairs|length - 1, 2) %}
+        {% if loop.index <= pairs|length - 1 %}
+        when {{ pairs[i]|trim }} then {{ pairs[i + 1]|trim }}
+        {% endif %}
     {% endfor %}
-    {% if args|length % 2 == 1 %}
-      else {{ args[-1] }}
-    {% endif %}
+{% if pairs|length % 2 == 1 %}
+      else {{ pairs[-1]|trim }}
+{% endif %}
   end
 {% endmacro %}
