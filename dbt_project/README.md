@@ -1,11 +1,12 @@
 # Oracle to dbt (Snowflake) Migration Project
 
 ## Overview
+
 This project facilitates the migration of Oracle PL/SQL packages to dbt models running on Snowflake. The structure is designed to support coding assistants and maintain clear separation between different layers of data transformation.
 
 ## Project Structure
 
-```
+```yaml
 dbt_project/
 ├── models/                     # dbt models organized by layer
 │   ├── staging/               # Raw data cleaning and standardization
@@ -36,6 +37,7 @@ oracle_packages/
 ## Getting Started
 
 ### Prerequisites
+
 - Python 3.8+
 - Access to Snowflake instance
 - Git for version control
@@ -43,12 +45,14 @@ oracle_packages/
 ### Setup Instructions
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd data-pipeline-assistant
    ```
 
 2. **Set up Python environment**
+
    ```bash
    python -m venv dbt_env
    source dbt_env/bin/activate  # On Windows: dbt_env\Scripts\activate
@@ -56,23 +60,27 @@ oracle_packages/
    ```
 
 3. **Configure environment variables**
+
    ```bash
    cp dbt_project/.env.example dbt_project/.env
    # Edit .env file with your Snowflake credentials
    ```
 
 4. **Install dbt packages**
+
    ```bash
    cd dbt_project
    dbt deps
    ```
 
 5. **Test connection**
+
    ```bash
    dbt debug
    ```
 
 6. **Run initial setup**
+
    ```bash
    dbt seed
    dbt run
@@ -82,22 +90,26 @@ oracle_packages/
 ## Oracle Package Conversion Process
 
 ### 1. Analysis Phase
+
 - Place Oracle package files in `oracle_packages/source_code/`
 - Document package functionality in `oracle_packages/documentation/`
 - Create analysis reports in `oracle_packages/analysis/`
 
 ### 2. Mapping Phase
+
 - Create mapping documents in `oracle_packages/mapping/`
 - Identify source tables and target models
 - Plan the conversion strategy
 
 ### 3. Implementation Phase
+
 - Create staging models for data extraction
 - Build intermediate models for business logic
 - Develop mart models for final outputs
 - Add appropriate tests and documentation
 
 ### 4. Validation Phase
+
 - Compare outputs with original Oracle package results
 - Implement data quality tests
 - Performance optimization
@@ -105,12 +117,15 @@ oracle_packages/
 ## Development Workflow
 
 ### Branch Strategy
+
 - `main`: Production-ready code
 - `develop`: Integration branch
 - `feature/*`: Feature development branches
 
 ### Making Changes
+
 1. Create feature branch from `develop`
+
    ```bash
    git checkout develop
    git pull origin develop
@@ -118,12 +133,14 @@ oracle_packages/
    ```
 
 2. Make your changes and test locally
+
    ```bash
    dbt run --select +your_model
    dbt test --select +your_model
    ```
 
 3. Commit and push changes
+
    ```bash
    git add .
    git commit -m "feat: convert Oracle PKG_EXAMPLE to dbt models"
@@ -161,12 +178,15 @@ dbt parse
 ## Snowflake Configuration
 
 ### Required Permissions
+
 Your Snowflake user needs:
+
 - `USAGE` on database and schema
 - `CREATE TABLE` in target schemas
 - `SELECT` on source tables
 
 ### Recommended Setup
+
 ```sql
 -- Create databases
 CREATE DATABASE ANALYTICS_DEV;
@@ -178,9 +198,9 @@ CREATE SCHEMA ANALYTICS_DEV.DBT_DEV;
 CREATE SCHEMA ANALYTICS_PROD.DBT_PROD;
 
 -- Create warehouse
-CREATE WAREHOUSE COMPUTE_WH 
-  WITH WAREHOUSE_SIZE = 'SMALL' 
-  AUTO_SUSPEND = 300 
+CREATE WAREHOUSE COMPUTE_WH
+  WITH WAREHOUSE_SIZE = 'SMALL'
+  AUTO_SUSPEND = 300
   AUTO_RESUME = true;
 ```
 
@@ -204,6 +224,7 @@ This project structure is optimized for coding assistants:
 ## Support
 
 For questions or issues:
+
 1. Check the documentation in `docs/`
 2. Review Oracle package mappings in `oracle_packages/mapping/`
 3. Consult the conversion analysis in `oracle_packages/analysis/`
