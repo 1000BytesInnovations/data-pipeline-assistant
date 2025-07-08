@@ -111,7 +111,7 @@ This project includes comprehensive pre-commit hooks to ensure code quality:
 This project provides a robust framework for migrating Oracle databases to Snowflake using dbt,
 with a strong emphasis on automation, code quality, and AI-driven development.
 
-```yaml
+```text
 - `{{ nvl('column', 'default') }}` → `nvl(column, 'default')`
 - `{{ decode(...) }}` → `case ... end`
 ```

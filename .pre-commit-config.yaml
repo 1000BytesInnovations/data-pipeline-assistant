@@ -28,6 +28,11 @@ repos:
   - repo: https://github.com/sqlfluff/sqlfluff
     rev: 3.4.1
     hooks:
+      - id: sqlfluff-lint
+        description: Lint SQL files with SQLFluff
+        files: \.(sql)$
+        args: ['--dialect=snowflake', '--config=.sqlfluff']
+        additional_dependencies: ['dbt-snowflake', 'sqlfluff-templater-dbt']
       - id: sqlfluff-fix
         description: Fix SQL files with SQLFluff
         files: \.(sql)$

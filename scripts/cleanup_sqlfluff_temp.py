@@ -19,7 +19,7 @@ def cleanup_sqlfluff_temp_files(directory="."):
     removed_files = []
 
     # Pattern for SQLFluff temp files: original_file.sql + random_suffix.sql
-    temp_pattern = re.compile(r"^(.+\.sql)[a-zA-Z0-9_]+\.sql$")
+    temp_pattern = re.compile(r"^(.+\.sql)[a-zA-Z0-9_-]+\.sql$")
 
     for root, dirs, files in os.walk(directory):
         for file in files:

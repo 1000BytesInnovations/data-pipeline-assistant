@@ -42,7 +42,3 @@ finance/
 ├── PKG_GL_PROCESSING.pkb          # Package body
 └── PKG_BUDGET_CALCULATIONS.sql    # Complete package
 ```
-
-```yaml
-
-```
