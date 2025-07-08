@@ -3,12 +3,14 @@
 This directory contains Oracle view definitions and logic that are separate from packages.
 
 ## Purpose
+
 - Store standalone Oracle views (.sql files)
 - Organize view logic that doesn't belong to specific packages
 - Maintain view dependencies and documentation
 
 ## Structure
-```
+
+```yaml
 oracle_packages/views/
 ├── business_domain_1/
 │   ├── view_name_1.sql
@@ -16,16 +18,19 @@ oracle_packages/views/
 ├── business_domain_2/
 │   └── view_name_3.sql
 └── shared/
-    └── common_views.sql
+└── common_views.sql
 ```
 
 ## Naming Convention
+
 - **View files**: `{view_name}.sql` (keep original Oracle view name)
 - **Folders**: Organize by business domain or functional area
 - **Shared views**: Put common/utility views in `shared/` subfolder
 
 ## View Documentation
+
 For each view, document:
+
 - Original Oracle view name
 - Business purpose and logic
 - Source tables and dependencies
@@ -33,12 +38,15 @@ For each view, document:
 - Any transformations needed
 
 ## Conversion to dbt
+
 Oracle views will typically become:
+
 - **Staging models** if they clean/standardize data
 - **Intermediate models** if they contain business logic
 - **Mart models** if they're final business outputs
 
 ## Example
+
 ```sql
 -- Original Oracle View: V_CUSTOMER_SUMMARY
 CREATE OR REPLACE VIEW V_CUSTOMER_SUMMARY AS

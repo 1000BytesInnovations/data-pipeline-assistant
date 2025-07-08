@@ -6,36 +6,63 @@ output_line_length = 120
 indent_unit = space
 tab_space_size = 4
 max_line_length = 120
+# Safe file handling for Windows
+large_file_skip_byte_limit = 40000
 
-# Basic templating without dbt for pre-commit
+# Basic templating with dbt support
 [sqlfluff:templater:jinja]
 apply_dbt_builtins = true
+# Load dbt macros and models for proper parsing
+library_path = dbt_project/macros
+# Enable macro loading for proper Jinja parsing
+load_macros_from_path = dbt_project/macros
+# Context for macro variables
+[sqlfluff:templater:jinja:context]
+# Provide context for macro arguments that might be undefined
+column = "test_column"
+value_pairs = ["value1", "result1", "default"]
+args = []
 
 # Indentation and spacing rules
 [sqlfluff:indentation]
-indented_joins = true
+indented_joins = false
 indented_ctes = true
 indented_using_on = true
-template_blocks_indent = true
+template_blocks_indent = false
 
 # Rules configuration
 [sqlfluff:rules]
 # Disable some rules that conflict with dbt patterns
+capitalisation_policy = lower
+# Allow Jinja templating in all contexts
+allow_scalar = true
+# Force in-place fixes without temp files
+fix_even_unparsable = false
+
+# Enable automatic fixing for common formatting issues
+[sqlfluff:rules:layout.indent]
+# Fix indentation automatically
+tab_space_size = 4
+
+[sqlfluff:rules:capitalisation.keywords]
+# Fix keyword capitalization
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.identifiers]
+# Fix identifier capitalization
 capitalisation_policy = lower
 
 # Layout configuration for comma position
 [sqlfluff:layout:type:comma]
 line_position = trailing
 
-# Allow dbt Jinja templating
-[sqlfluff:rules:templating.python.templating]
-# Allow {{ }} blocks for dbt
-allow_jinja = true
+# Allow dbt Jinja templating - removed invalid rule section
 
 # Layout rules
 [sqlfluff:rules:layout.long_lines]
 # Allow longer lines for complex dbt expressions
 ignore_comment_lines = true
+ignore_comment_clauses = true
 
 [sqlfluff:rules:layout.select_targets]
 # Allow multiline select targets for readability

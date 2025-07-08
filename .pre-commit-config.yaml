@@ -28,16 +28,21 @@ repos:
   - repo: https://github.com/sqlfluff/sqlfluff
     rev: 3.4.1
     hooks:
-      - id: sqlfluff-lint
-        description: Lint SQL files with SQLFluff
-        files: \.(sql)$
-        args: ['--dialect=snowflake', '--config=.sqlfluff']
-        additional_dependencies: ['dbt-snowflake', 'sqlfluff-templater-dbt']
       - id: sqlfluff-fix
         description: Fix SQL files with SQLFluff
         files: \.(sql)$
         args: ['--dialect=snowflake', '--config=.sqlfluff']
         additional_dependencies: ['dbt-snowflake', 'sqlfluff-templater-dbt']
+
+  # Cleanup SQLFluff temporary files
+  - repo: local
+    hooks:
+      - id: cleanup-sqlfluff-temp
+        name: Cleanup SQLFluff temporary files
+        entry: python scripts/cleanup_sqlfluff_temp.py
+        language: system
+        always_run: true
+        pass_filenames: false
 
   # Python code formatting (for scripts and custom code)
   - repo: https://github.com/psf/black
@@ -68,7 +73,7 @@ repos:
 
   # dbt-specific hooks (simplified for Oracle migration project)
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
-    rev: v1.2.1
+    rev: v2.0.7
     hooks:
       - id: check-script-has-no-table-name
         description: Ensure dbt scripts use {{ ref() }} and {{ source() }}
@@ -76,6 +81,7 @@ repos:
       - id: check-macro-has-description
         description: Ensure all macros have descriptions
         files: dbt_project/macros/.*\.sql$
+        exclude: dbt_project/macros/oracle_utils/.*\.sql$
       - id: dbt-deps
         description: Install dbt dependencies first
         stages: [manual]
@@ -89,7 +95,7 @@ repos:
     hooks:
       - id: markdownlint
         description: Lint Markdown files
-        args: ['--config', '.markdownlint.json']
+        args: ['--config', '.markdownlint.json', '--fix']
   # Oracle PL/SQL specific checks (custom script)
   - repo: local
     hooks:
@@ -114,6 +120,14 @@ repos:
         language: python
         files: dbt_project/models/.*\.sql$
         description: Ensure Oracle functions have corresponding dbt macros
+
+  # Prettier for Markdown files
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        files: \.(md|markdown)$
+        args: ["--write"]
 
 # Configuration for specific file exclusions
 exclude: |

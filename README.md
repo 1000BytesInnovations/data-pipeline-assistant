@@ -1,10 +1,12 @@
 # Data Pipeline Assistant
 
-A comprehensive data pipeline management and automation tool designed for converting Oracle PL/SQL packages to dbt models with built-in quality assurance through pre-commit hooks.
+A comprehensive data pipeline management and automation tool designed for converting Oracle PL/SQL packages to dbt models
+with built-in quality assurance through pre-commit hooks.
 
 ## Project Overview
 
 This repository contains a structured dbt project optimized for:
+
 - Converting Oracle database packages to dbt models
 - Maintaining clear lineage from Oracle source to dbt transformations
 - Supporting coding assistants with well-organized folder structures
@@ -14,6 +16,7 @@ This repository contains a structured dbt project optimized for:
 ## Features
 
 ### 🔧 **Code Quality & Formatting**
+
 - **Python**: Black formatting, isort imports, Flake8 linting
 - **SQL**: SQLFluff linting and formatting optimized for dbt + Snowflake
 - **YAML**: Validation for dbt configuration files
@@ -21,16 +24,17 @@ This repository contains a structured dbt project optimized for:
 - **General**: Trailing whitespace, line endings, merge conflicts
 
 ### 🎯 **dbt-Specific Validations**
+
 - Model naming conventions enforcement
 - Required documentation checks (models, columns, sources)
 - Dependency management ({{ ref() }}, {{ source() }})
 
 ### 🏛️ **Oracle Migration Specific**
+
 - Oracle package structure validation
 - Conversion documentation requirements
 - Oracle function → dbt macro coverage analysis
 - Migration progress tracking
-
 
 ## Quick Start
 
@@ -38,11 +42,13 @@ This repository contains a structured dbt project optimized for:
 2. **Configure connection** - Choose one:
    - **Option A (File)**: Copy `dbt_project/.env.example` to `.env` and fill in credentials
    - **Option B (CLI)**: Set environment variables in PowerShell:
+
      ```powershell
      $env:SNOWFLAKE_ACCOUNT = "your_account.region"
      $env:SNOWFLAKE_USER = "your_username"
      $env:SNOWFLAKE_PASSWORD = "your_password"
      ```
+
 3. **Install dependencies**: `cd dbt_project && dbt deps`
 4. **Setup pre-commit hooks**: `python scripts/setup_pre_commit.py`
 5. **Run conversion**: Follow patterns in `QUICK_REFERENCE.md`
@@ -64,6 +70,7 @@ This repository contains a structured dbt project optimized for:
 ## Oracle Function Conversions
 
 Available macros for Oracle compatibility:
+
 - `{{ nvl('column', 'default') }}` - Replaces NVL with COALESCE
 - `{{ decode('col', 'val1', 'result1', 'default') }}` - Replaces DECODE with CASE statements
 - `{{ oracle_to_date('date_string', 'format') }}` - Replaces TO_DATE
@@ -79,11 +86,13 @@ Available macros for Oracle compatibility:
 ## Key Features
 
 ### Rich Metadata
+
 - Comprehensive `schema.yml` files with column descriptions
 - Meta tags linking dbt models to original Oracle packages
 - Conversion tracking with dates and responsible teams
 
 ### Documentation-Driven Development
+
 - README files in each major directory
 - Conversion mapping documentation
 
@@ -98,3 +107,11 @@ This project includes comprehensive pre-commit hooks to ensure code quality:
 
 **Setup**: Run `python scripts/setup_pre_commit.py`
 **Documentation**: See [Pre-commit Feature Guide](docs/PRE_COMMIT_FEATURE.md)
+
+This project provides a robust framework for migrating Oracle databases to Snowflake using dbt,
+with a strong emphasis on automation, code quality, and AI-driven development.
+
+```yaml
+- `{{ nvl('column', 'default') }}` → `nvl(column, 'default')`
+- `{{ decode(...) }}` → `case ... end`
+```

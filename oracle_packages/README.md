@@ -4,7 +4,7 @@ This directory contains the Oracle packages that need to be converted to dbt mod
 
 ## Directory Structure
 
-```
+```yaml
 oracle_packages/
 ├── source_code/          # Original Oracle package files (.sql, .pks, .pkb)
 ├── views/               # Oracle view definitions (separate from packages)
