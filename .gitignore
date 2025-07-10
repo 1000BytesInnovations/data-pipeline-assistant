@@ -4,3 +4,7 @@ jira/.env
 
 # Ignore Node.js dependencies and cache files
 node_modules/
+
+# Ignore Jira integration output files (test data)
+jira/jira_stories.json
+jira/selected_story_details.json
