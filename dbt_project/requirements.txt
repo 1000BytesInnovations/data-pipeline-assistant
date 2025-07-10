@@ -3,3 +3,5 @@ dbt-snowflake>=1.6.0
 pyyaml>=6.0
 sqlfluff>=2.0.0
 pre-commit>=3.0.0
+# Jira OAuth integration
+requests>=2.28.0

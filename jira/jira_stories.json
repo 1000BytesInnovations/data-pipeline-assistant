@@ -1,0 +1,122 @@
+[
+    {
+        "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+        "id": "2382523",
+        "self": "https://cbi-docs.atlassian.net/rest/api/3/issue/2382523",
+        "key": "SCPLAN-1060",
+        "fields": {
+            "summary": "Part.tab",
+            "description": null,
+            "status": {
+                "self": "https://cbi-docs.atlassian.net/rest/api/3/status/10347",
+                "description": "",
+                "iconUrl": "https://cbi-docs.atlassian.net/images/icons/statuses/generic.png",
+                "name": "Canceled",
+                "id": "10347",
+                "statusCategory": {
+                    "self": "https://cbi-docs.atlassian.net/rest/api/3/statuscategory/3",
+                    "id": 3,
+                    "key": "done",
+                    "colorName": "green",
+                    "name": "Done"
+                }
+            }
+        }
+    },
+    {
+        "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+        "id": "2382491",
+        "self": "https://cbi-docs.atlassian.net/rest/api/3/issue/2382491",
+        "key": "SCPLAN-1045",
+        "fields": {
+            "summary": "FungibleGroup.tab",
+            "description": null,
+            "status": {
+                "self": "https://cbi-docs.atlassian.net/rest/api/3/status/10347",
+                "description": "",
+                "iconUrl": "https://cbi-docs.atlassian.net/images/icons/statuses/generic.png",
+                "name": "Canceled",
+                "id": "10347",
+                "statusCategory": {
+                    "self": "https://cbi-docs.atlassian.net/rest/api/3/statuscategory/3",
+                    "id": 3,
+                    "key": "done",
+                    "colorName": "green",
+                    "name": "Done"
+                }
+            }
+        }
+    },
+    {
+        "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+        "id": "2382489",
+        "self": "https://cbi-docs.atlassian.net/rest/api/3/issue/2382489",
+        "key": "SCPLAN-1044",
+        "fields": {
+            "summary": "Variety.tab",
+            "description": null,
+            "status": {
+                "self": "https://cbi-docs.atlassian.net/rest/api/3/status/10347",
+                "description": "",
+                "iconUrl": "https://cbi-docs.atlassian.net/images/icons/statuses/generic.png",
+                "name": "Canceled",
+                "id": "10347",
+                "statusCategory": {
+                    "self": "https://cbi-docs.atlassian.net/rest/api/3/statuscategory/3",
+                    "id": 3,
+                    "key": "done",
+                    "colorName": "green",
+                    "name": "Done"
+                }
+            }
+        }
+    },
+    {
+        "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+        "id": "2382487",
+        "self": "https://cbi-docs.atlassian.net/rest/api/3/issue/2382487",
+        "key": "SCPLAN-1043",
+        "fields": {
+            "summary": "SubBrand.tab",
+            "description": null,
+            "status": {
+                "self": "https://cbi-docs.atlassian.net/rest/api/3/status/10347",
+                "description": "",
+                "iconUrl": "https://cbi-docs.atlassian.net/images/icons/statuses/generic.png",
+                "name": "Canceled",
+                "id": "10347",
+                "statusCategory": {
+                    "self": "https://cbi-docs.atlassian.net/rest/api/3/statuscategory/3",
+                    "id": 3,
+                    "key": "done",
+                    "colorName": "green",
+                    "name": "Done"
+                }
+            }
+        }
+    },
+    {
+        "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+        "id": "2382481",
+        "self": "https://cbi-docs.atlassian.net/rest/api/3/issue/2382481",
+        "key": "SCPLAN-1041",
+        "fields": {
+            "summary": "Warehouse.tab",
+            "description": null,
+            "status": {
+                "self": "https://cbi-docs.atlassian.net/rest/api/3/status/10347",
+                "description": "",
+                "iconUrl": "https://cbi-docs.atlassian.net/images/icons/statuses/generic.png",
+                "name": "Canceled",
+                "id": "10347",
+                "statusCategory": {
+                    "self": "https://cbi-docs.atlassian.net/rest/api/3/statuscategory/3",
+                    "id": 3,
+                    "key": "done",
+                    "colorName": "green",
+                    "name": "Done"
+                }
+            }
+        }
+    }
+]
