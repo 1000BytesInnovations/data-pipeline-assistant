@@ -6,6 +6,24 @@ Convert Oracle PL/SQL packages to dbt models running on Snowflake.
 
 ## Key Instructions for AI Assistants
 
+### Development Workflow
+
+Before implementing any new feature or making changes, please follow these steps:
+
+1. **Create a new branch**: Always create a new feature branch from the `develop` branch.
+   - Branch naming convention: `feature/<feature-name>` or `bugfix/<bug-name>`.
+2. **Implement changes**: Make all your changes in the new branch.
+3. **Commit your work**: Commit your changes with clear and concise messages.
+4. **Push your branch**: Push the feature branch to the remote repository.
+
+### Opening a Pull Request (PR)
+
+After pushing your feature branch to the remote repository, always open a Pull Request (PR) to merge your changes into `develop`.
+
+- Use the `gn` command to open a PR (if your environment supports it), or use your Git hosting provider's web interface.
+- Ensure your PR includes a clear description of the feature or fix, and references any relevant Jira stories.
+- Assign reviewers as appropriate and follow your team's code review process.
+
 ### File Locations
 
 - **Oracle source files**: Place in `oracle_packages/source_code/{package_name}/`
