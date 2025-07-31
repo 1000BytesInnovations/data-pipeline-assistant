@@ -41,7 +41,7 @@ You are an expert data engineer tasked with converting Oracle Data Integrator (O
 - For standard functions → use Snowflake equivalents (NVL → COALESCE, etc.)
 
 ### 8. Dependencies & Job Orchestration
-- Create `.dbt` job file with specific dbt execution commands in **execution order**:
+- Create `<main model name>/<main model schema>_<main model name>.dbt` job file in <dbt project folder>/jobs with specific dbt execution commands in **execution order**:
   - Use `dbt build --select [model_name]` for individual models
   - Use `dbt run-operation [macro_name]` for macro executions
   
