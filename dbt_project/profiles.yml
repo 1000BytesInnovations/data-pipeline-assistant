@@ -13,16 +13,3 @@ oracle_to_dbt:
       threads: 4
       client_session_keep_alive: false
       query_tag: "dbt_dev"
-
-    prod:
-      type: snowflake
-      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
-      user: "{{ env_var('SNOWFLAKE_PROD_USER') }}"
-      password: "{{ env_var('SNOWFLAKE_PROD_PASSWORD') }}"
-      role: "{{ env_var('SNOWFLAKE_PROD_ROLE', 'TRANSFORMER_PROD') }}"
-      database: "{{ env_var('SNOWFLAKE_PROD_DATABASE', 'ANALYTICS_PROD') }}"
-      warehouse: "{{ env_var('SNOWFLAKE_PROD_WAREHOUSE', 'COMPUTE_WH') }}"
-      schema: "{{ env_var('SNOWFLAKE_PROD_SCHEMA', 'DBT_PROD') }}"
-      threads: 8
-      client_session_keep_alive: false
-      query_tag: "dbt_prod"
