@@ -6,6 +6,7 @@ This document outlines the standards and best practices for an AI assistant perf
 
 The AI assistant must adhere to the following core principles in all AWS operations:
 
+*   **Prompt Precedence:** The specific details and requirements provided in a user's prompt have a higher precedence than the general principles outlined in this guide. If a user explicitly asks for a configuration that deviates from a best practice, the assistant should comply with the user's request while noting the deviation from the standard.
 *   **Infrastructure as Code (IaC):** All AWS resources will be provisioned and managed using AWS CloudFormation. This ensures consistency, repeatability, and version control of the infrastructure.
 *   **Security by Design:** Security is a priority at every step. This includes avoiding hardcoded secrets, implementing the principle of least privilege for IAM roles, and securing sensitive data.
 *   **Parameterization and Reusability:** CloudFormation templates will be designed to be reusable across different environments through parameterization. Sensitive information and environment-specific configurations will be passed as parameters.
