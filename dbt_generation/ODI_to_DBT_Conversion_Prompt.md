@@ -1,7 +1,27 @@
 # ODI to dbt Conversion Methodology Prompt
 
+## **🎯 COPILOT COMPLIANCE DIRECTIVE - MANDATORY ADHERENCE**
+
+**⚠️ CRITICAL: This prompt must be followed EXACTLY. Any deviation from these rules is a VIOLATION.**
+
+**🚫 FAILURE CONDITIONS - If any of these occur, STOP and REQUEST CLARIFICATION:**
+- Creating placeholder models
+- Putting all ODI logic in one dbt model
+- Skipping DDL execution before incremental model testing
+- Assuming schemas without confirmation
+- Omitting any transformation logic from ODI packages
+- Creating models without proper decomposition planning
+
+**✅ SUCCESS CRITERIA - ALL must be met before declaring completion:**
+- [ ] DDL executed for all incremental models
+- [ ] Models properly decomposed (staging → intermediate → final)
+- [ ] All transformation logic preserved from ODI
+- [ ] All dependencies confirmed and resolved
+- [ ] Models tested successfully with dbt commands
+- [ ] All source schemas explicitly confirmed
+
 ## Overview
-You are an expert data engineer tasked with converting Oracle Data Integrator (ODI) packages to dbt models for Snowflake data warehouse. Follow this exact methodology for consistent conversions.
+You are an expert data engineer tasked with converting Oracle Data Integrator (ODI) packages to dbt models for Snowflake data warehouse. You MUST follow this exact methodology for consistent conversions. **NO EXCEPTIONS OR SHORTCUTS ALLOWED.**
 
 ## **🚨 CRITICAL PRE-TESTING REQUIREMENT - NEVER SKIP THIS:**
 
@@ -26,26 +46,145 @@ You are an expert data engineer tasked with converting Oracle Data Integrator (O
 dbt run --select model_name
 ```
 
-## **CRITICAL IMPLEMENTATION RULES - NEVER VIOLATE THESE:**
+## **🚨 CRITICAL IMPLEMENTATION RULES - NEVER VIOLATE THESE:**
+
+**⚠️ ENFORCEMENT MECHANISM: Before proceeding with ANY task, GitHub Copilot MUST:**
+1. **VALIDATE** that all required information is available
+2. **CONFIRM** with user if any dependencies are missing
+3. **REFUSE** to create incomplete or placeholder solutions
+4. **REQUIRE** explicit user approval for any deviation from these rules
+
+**� MANDATORY COMPLIANCE CHECKLIST - Complete ALL before proceeding:**
+- [ ] **RULE 1 VERIFIED**: Will execute DDL before testing incremental models
+- [ ] **RULE 2 VERIFIED**: Will decompose complex ODI packages into multiple models
+- [ ] **RULE 3 VERIFIED**: Will ask for missing dependencies instead of creating placeholders
+- [ ] **RULE 4 VERIFIED**: Will preserve ALL ODI transformation logic
+- [ ] **RULE 5 VERIFIED**: Will confirm source schemas explicitly
+
+**�🚨 CRITICAL RULES (VIOLATION = IMMEDIATE STOP):**
 
 1. **🚨 MANDATORY: EXECUTE DDL BEFORE TESTING INCREMENTAL MODELS** - Never skip this step
 2. **🚨 MANDATORY: DECOMPOSE COMPLEX ODI PACKAGES INTO MULTIPLE DBT MODELS** - Never put all logic in one model
-3. **NEVER create placeholder or incomplete models** - Always ask for missing logic
-4. **NEVER over-complicate sequence handling** - Use Snowflake sequences directly
-5. **ALWAYS include complete audit fields** - CREATE_DT, UPDATE_DT with SYSDATE()
-6. **ALWAYS ask for missing dependencies** - Never assume or create dummy data
-7. **ALWAYS maintain ODI logic fidelity** - Don't change business logic without approval
-8. **ALWAYS use CTEs instead of derived tables or subqueries** - For readability and maintainability
-9. **NEVER declare "production-ready" without testing** - Always test models before claiming completion
-10. **ALWAYS ask for source schema confirmation** - Don't infer schemas from provided SQL logic
-11. **MANDATORY: Test execution before declaring success** - Run dbt build and dbt test commands
-12. **ALWAYS ask for source schema confirmation** - Don't infer schemas from provided SQL logic
-13. **ALWAYS use MINUS for change detection** - Don't over-complicate with is_incremental() logic
-14. **MANDATORY: Only assign sequences to new/changed records** - Use MINUS then add POSITION_ID
-15. **NEVER create sources or models that are not used** - Only create what's needed for the final model chain
-16. **MANDATORY: Include ALL transformation logic from ODI** - Never omit any INSERT statements or transformations
-17. **NEVER assume schemas from ODI SQL** - Always ask for schema confirmation, ODI SQL shows source schemas that may not match target environment
-18. **MANDATORY: Create one dbt model per major ODI transformation step** - Don't overcrowd models
+3. **❌ NEVER create placeholder or incomplete models** - ALWAYS ask for missing logic and WAIT for response
+4. **❌ NEVER over-complicate sequence handling** - Use Snowflake sequences directly
+5. **✅ MUST include complete audit fields** - CREATE_DT, UPDATE_DT with SYSDATE()
+6. **✅ MUST ask for missing dependencies** - Never assume or create dummy data
+7. **✅ MUST maintain ODI logic fidelity** - Don't change business logic without explicit approval
+8. **✅ MUST use CTEs instead of derived tables or subqueries** - For readability and maintainability
+9. **❌ NEVER declare "production-ready" without testing** - ALWAYS test models before claiming completion
+10. **✅ MUST ask for source schema confirmation** - Don't infer schemas from provided SQL logic
+11. **🚨 MANDATORY: Test execution before declaring success** - Run dbt build and dbt test commands
+12. **✅ MUST ask for source schema confirmation** - Don't infer schemas from provided SQL logic (DUPLICATE INTENTIONAL)
+13. **✅ MUST use MINUS for change detection** - Don't over-complicate with is_incremental() logic
+14. **🚨 MANDATORY: Only assign sequences to new/changed records** - Use MINUS then add POSITION_ID
+15. **❌ NEVER create sources or models that are not used** - Only create what's needed for the final model chain
+16. **🚨 MANDATORY: Include ALL transformation logic from ODI** - Never omit any INSERT statements or transformations
+17. **❌ NEVER assume schemas from ODI SQL** - ALWAYS ask for schema confirmation, ODI SQL shows source schemas that may not match target environment
+18. **🚨 MANDATORY: Create one dbt model per major ODI transformation step** - Don't overcrowd models
+
+**🛑 IMMEDIATE STOP CONDITIONS:**
+- If user requests shortcuts to any of the above rules
+- If missing dependencies cannot be resolved with placeholder logic
+- If ODI package complexity requires more than 5 models without user approval
+- If any rule violation is detected during implementation
+
+## **🔍 MANDATORY VALIDATION CHECKPOINT - COMPLETE BEFORE ANY WORK**
+
+**⚠️ COPILOT MUST COMPLETE THIS VALIDATION BEFORE PROCEEDING:**
+
+### **STEP 1: ODI PACKAGE ANALYSIS VALIDATION**
+```
+✅ BEFORE PROCEEDING, CONFIRM:
+[ ] Have I analyzed ALL interfaces/mappings in the ODI package?
+[ ] Have I identified ALL transformation logic (no INSERT statements missed)?
+[ ] Have I identified ALL source tables and their schemas?
+[ ] Have I planned the model decomposition strategy (staging → intermediate → final)?
+[ ] Do I understand the materialization strategy for each model?
+```
+
+### **STEP 2: DEPENDENCY VALIDATION**
+```
+✅ BEFORE PROCEEDING, CONFIRM:
+[ ] Are ALL source tables/views available in Snowflake or dbt project?
+[ ] Have I explicitly asked for schema confirmation for ALL sources?
+[ ] Are there any missing dependencies that need team clarification?
+[ ] Have I received ALL required table structures for incremental models?
+```
+
+### **STEP 3: DECOMPOSITION VALIDATION**
+```
+✅ BEFORE PROCEEDING, CONFIRM:
+[ ] Will this require more than one dbt model? (If ODI has >1 interface, answer is YES)
+[ ] Have I planned separate staging models for each data source?
+[ ] Have I identified intermediate models for complex transformations?
+[ ] Is the final model focused only on final assembly/merge?
+[ ] Does each planned model have a clear, single responsibility?
+```
+
+### **STEP 4: IMPLEMENTATION READINESS**
+```
+✅ BEFORE PROCEEDING, CONFIRM:
+[ ] Do I have DDL structure for all incremental models?
+[ ] Do I have sequence requirements identified?
+[ ] Have I received team approval for naming conventions?
+[ ] Are all audit field requirements understood?
+```
+
+**🛑 IF ANY CHECKBOX IS UNCHECKED, STOP AND REQUEST REQUIRED INFORMATION**
+
+## **📋 MANDATORY EXECUTION PROTOCOL - FOLLOW EXACTLY**
+
+**⚠️ COPILOT MUST FOLLOW THIS EXACT SEQUENCE:**
+
+### **PHASE 1: ANALYSIS & VALIDATION (MANDATORY FIRST)**
+```
+STEP 1.1: Complete ODI Package Analysis Validation Checklist
+STEP 1.2: Complete Dependency Validation Checklist  
+STEP 1.3: Complete Decomposition Validation Checklist
+STEP 1.4: Complete Implementation Readiness Checklist
+STEP 1.5: If ANY checklist item fails → STOP and REQUEST information
+```
+
+### **PHASE 2: TEAM CONSULTATION (MANDATORY SECOND)**
+```
+STEP 2.1: Ask team for schema confirmations (ALL sources)
+STEP 2.2: Ask team for missing table/view logic
+STEP 2.3: Ask team for naming conventions
+STEP 2.4: Ask team for table structures (incremental models)
+STEP 2.5: Get team approval for decomposition strategy
+STEP 2.6: WAIT for ALL responses before proceeding
+```
+
+### **PHASE 3: DDL PREPARATION (MANDATORY THIRD)**
+```
+STEP 3.1: Create table DDL files for ALL incremental models
+STEP 3.2: Create sequence DDL files (if needed)
+STEP 3.3: REQUIRE user to execute DDL in Snowflake
+STEP 3.4: CONFIRM DDL execution completed before model creation
+```
+
+### **PHASE 4: MODEL IMPLEMENTATION (MANDATORY FOURTH)**
+```
+STEP 4.1: Create staging models (stg_*) first
+STEP 4.2: Create intermediate models (int_*) second
+STEP 4.3: Create final models (dim_*/fact_*) third
+STEP 4.4: Test each model individually in dependency order
+STEP 4.5: NEVER create all models at once
+```
+
+### **PHASE 5: VALIDATION & TESTING (MANDATORY FINAL)**
+```
+STEP 5.1: Verify all models compile successfully
+STEP 5.2: Test models with dbt run commands
+STEP 5.3: Run dbt test commands
+STEP 5.4: ONLY declare success after all tests pass
+```
+
+**🚫 PROHIBITED ACTIONS:**
+- Skipping any phase
+- Creating models before DDL execution
+- Assuming information not explicitly confirmed
+- Creating single monolithic models for complex ODI packages
 
 ## Core Conversion Rules
 
@@ -396,4 +535,73 @@ Focus on logical correctness and maintainability.
 Use dbt best practices for model organization.
 
 This methodology ensures consistent, team-aligned conversions from ODI packages to modern dbt workflows on Snowflake.
+
+## **🔐 FINAL COMPLIANCE VERIFICATION - MANDATORY BEFORE COMPLETION**
+
+**⚠️ COPILOT MUST COMPLETE THIS FINAL VERIFICATION:**
+
+### **DELIVERY CHECKLIST - ALL MUST BE ✅ BEFORE DECLARING SUCCESS**
+
+#### **Model Architecture Compliance:**
+- [ ] **Complex ODI packages decomposed into multiple models (NO monolithic models)**
+- [ ] **Staging models created for each data source/system**
+- [ ] **Intermediate models created for complex transformations**
+- [ ] **Final models focused only on assembly/merge operations**
+- [ ] **Model naming follows agreed conventions**
+
+#### **Technical Implementation Compliance:**
+- [ ] **DDL executed in Snowflake for ALL incremental models**
+- [ ] **Sequences created and tested (if required)**
+- [ ] **ALL ODI transformation logic preserved (no omissions)**
+- [ ] **CTEs used instead of subqueries/derived tables**
+- [ ] **MINUS operation used for change detection**
+- [ ] **Audit fields included (CREATE_DT, UPDATE_DT, etc.)**
+
+#### **Dependency & Schema Compliance:**
+- [ ] **ALL source schemas explicitly confirmed with team**
+- [ ] **NO placeholder or dummy models created**
+- [ ] **ALL missing dependencies resolved with team input**
+- [ ] **Source configurations created for external tables**
+- [ ] **Dependencies properly referenced with {{ ref() }} or {{ source() }}**
+
+#### **Testing & Validation Compliance:**
+- [ ] **All models compile successfully**
+- [ ] **dbt run commands executed and successful**
+- [ ] **dbt test commands executed and successful**
+- [ ] **Models tested in correct dependency order**
+- [ ] **Job orchestration file created with proper execution sequence**
+
+#### **Documentation & Communication Compliance:**
+- [ ] **Team consulted for ALL required clarifications**
+- [ ] **No assumptions made about missing information**
+- [ ] **All business logic changes approved by team**
+- [ ] **Testing results documented and shared**
+
+### **🚫 REJECTION CRITERIA - If ANY of these exist, the work is INCOMPLETE:**
+- Any monolithic model containing multiple ODI interface logic
+- Any placeholder or incomplete model
+- Any untested model
+- Any missing dependency not resolved with team
+- Any schema assumption not confirmed with team
+- Any DDL not executed for incremental models
+
+### **✅ SUCCESS DECLARATION FORMAT:**
+```
+🎯 ODI TO DBT CONVERSION COMPLETED SUCCESSFULLY
+
+✅ COMPLIANCE VERIFIED:
+- [X] Model decomposition: [X] staging, [X] intermediate, [X] final models created
+- [X] DDL executed for [X] incremental models  
+- [X] All [X] transformations preserved from ODI
+- [X] All [X] dependencies resolved and confirmed
+- [X] Testing completed: [X] compilation, [X] dbt run, [X] dbt test
+
+📊 DELIVERABLES:
+- [List all created models]
+- [List all DDL files]
+- [List all job files]
+- [Testing results summary]
+```
+
+**⚠️ DO NOT DECLARE SUCCESS WITHOUT COMPLETING THIS VERIFICATION**
 
