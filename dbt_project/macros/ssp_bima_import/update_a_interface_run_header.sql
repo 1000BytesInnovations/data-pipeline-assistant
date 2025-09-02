@@ -1,5 +1,0 @@
-{% macro update_a_interface_run_header() %}
-UPDATE CBI_METADATA.A_INTERFACE_RUN
-SET LAST_RUN_DATE = SYSDATE()
-WHERE INTERFACE_NAME = 'INT_SSP_DEMAND_HEADER_BIMA_IMP'
-{% endmacro %}
