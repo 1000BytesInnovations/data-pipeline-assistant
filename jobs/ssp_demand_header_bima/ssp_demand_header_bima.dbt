@@ -1,4 +1,4 @@
-# DBT build commands in execution sequence for ssp_demand_data_refresh
+# DBT build commands in execution sequence for ssp_demand_header_bima
 # Run these commands in order to build the final model dependencies
 dbt build --select ssp_demand_detail
 dbt build --select ssp_demand_header
