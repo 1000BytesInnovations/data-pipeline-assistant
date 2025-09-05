@@ -2,21 +2,20 @@
     config(
         materialized='incremental',
         unique_key=['DEMAND_SET', 'DEMAND_SET_NAME'],
-        pre_hook='{{ delete_ssp_demand_header() }}',
-        post_hook='{{ update_interface_run_ssp_demand_header() }}'
+        pre_hook=['{{ delete_ssp_demand_header() }}']
     )
 }}
 
-WITH last_run_date_cte AS (
-    SELECT MAX(LAST_RUN_DATE) AS max_last_run_date
+WITH max_last_run_date_cte AS (
+    SELECT MAX(LAST_RUN_DATE) AS LAST_RUN_DATE_VALUE
     FROM CBI_METADATA.A_INTERFACE_RUN
     WHERE INTERFACE_NAME = 'INT_SSP_DEMAND_HEADER_BIMA_IMP'
 ),
-audit_count_cte AS (
-    SELECT COUNT(*) AS audit_row_count
+count_lnd_ext_files_ssp_demand_detail_vw_cte AS (
+    SELECT COUNT(*) AS COUNT_VALUE
     FROM CBI_AUDITS.LND_EXT_FILES_SSP_DEMAND_DETAIL_VW
 ),
-src_data AS (
+source_processed AS (
     SELECT DISTINCT
         SRC.DEMAND_SET,
         SRC.DEMAND_SET_NAME,
@@ -30,13 +29,12 @@ src_data AS (
         SRC.UPDATE_BY,
         SRC.UPDATE_PGM
     FROM LND_EXT_FILES.SSP_DEMAND_DETAIL SRC
-    CROSS JOIN last_run_date_cte lr
-    CROSS JOIN audit_count_cte ac
-    WHERE (1=1)
-      AND SRC.CREATE_DT > lr.max_last_run_date
-      AND ac.audit_row_count <= 1
+    JOIN max_last_run_date_cte LRD ON 1=1
+    JOIN count_lnd_ext_files_ssp_demand_detail_vw_cte CVC ON 1=1
+    WHERE SRC.CREATE_DT > LRD.LAST_RUN_DATE_VALUE
+      AND CVC.COUNT_VALUE <= 1
 ),
-existing_data AS (
+target_existing AS (
     SELECT
         DEMAND_SET,
         DEMAND_SET_NAME,
@@ -51,9 +49,10 @@ existing_data AS (
         UPDATE_PGM
     FROM {{ this }}
 ),
-final_insert_rows AS (
-    SELECT * FROM src_data
+rows_to_insert AS (
+    SELECT * FROM source_processed
     EXCEPT
-    SELECT * FROM existing_data
+    SELECT * FROM target_existing
 )
-SELECT * FROM final_insert_rows
+SELECT *
+FROM rows_to_insert

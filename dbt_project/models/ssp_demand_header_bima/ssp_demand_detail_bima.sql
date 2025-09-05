@@ -1,37 +1,39 @@
 {{
     config(
-        materialized='table'
+        materialized='table',
+        post_hook=['{{ update_interface_run_detail_bima_imp() }}']
     )
 }}
 
 SELECT
-    SRC.DEMAND_SET,
-    SRC.DEMAND_SET_NAME,
-    SRC.DEMAND_TYPE_CD,
-    SRC.ITEM_02_CD,
-    SRC.LOCATION,
-    SRC.BLEND_CD,
-    SRC.DEMAND_QTY,
-    SRC.UOM_CD,
-    SRC.DEMAND_DT,
-    SRC.RECOMMENDED_START_DT,
-    SRC.RECOMMENDED_END_DT,
-    SRC.MONTH,
-    SRC.YEAR,
-    SRC.NEW_ITEM_CD,
-    SRC.ADDRESS_CD,
-    SRC.BRAND_CD,
-    SRC.VARIETAL_CD,
-    SRC.SUB_BRAND_CD,
-    SRC.ITEM_SIZE_CD,
-    SRC.OPCO_DSC,
-    SRC.ACTIVE_FLG,
-    SRC.DATA_SRC,
-    SRC.CREATE_DT,
-    SRC.CREATE_BY,
-    SRC.CREATE_PGM,
-    SRC.UPDATE_DT,
-    SRC.UPDATE_BY,
-    SRC.UPDATE_PGM
-FROM {{ ref('ssp_demand_detail') }} SRC
-WHERE (1=1)
+    DEMAND_SET,
+    DEMAND_SET_NAME,
+    DEMAND_TYPE_CD,
+    ITEM_02_CD,
+    LOCATION,
+    BLEND_CD,
+    DEMAND_QTY,
+    UOM_CD,
+    DEMAND_DT,
+    RECOMMENDED_START_DT,
+    RECOMMENDED_END_DT,
+    MONTH,
+    YEAR,
+    NEW_ITEM_CD,
+    ADDRESS_CD,
+    BRAND_CD,
+    VARIETAL_CD,
+    SUB_BRAND_CD,
+    ITEM_SIZE_CD,
+    OPCO_DSC,
+    ACTIVE_FLG,
+    DATA_SRC,
+    CREATE_DT,
+    CREATE_BY,
+    CREATE_PGM,
+    UPDATE_DT,
+    UPDATE_BY,
+    UPDATE_PGM
+FROM {{ ref('ssp_demand_detail') }}
+WHERE
+    (1=1)
